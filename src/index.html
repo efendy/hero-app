@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hero App!</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script defer src="js/global.js"></script>
+    <script defer src="js/storage.js"></script>
+    <script defer src="js/database.js"></script>
+    <script defer src="js/view_home.js"></script>
+    <script defer src="js/view_process.js"></script>
+    <script defer src="js/view_settings.js"></script>
+  </head>
+  <body class="site">
+    <header class="section-header fixed-top py-1 bg-light">
+      <ul class="nav nav-tabs" >
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><span class="glyphicon glyphicon-home offset-right" aria-hidden="true"></span>Home</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="process-tab" data-bs-toggle="tab" data-bs-target="#process" type="button" role="tab" aria-controls="process" aria-selected="false"><span class="glyphicon glyphicon-filter offset-right" aria-hidden="true"></span>Process</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false"><span class="glyphicon glyphicon-cog offset-right" aria-hidden="true"></span>Settings</button>
+        </li>
+      </ul>
+      <div id="overlay-block">
+        <div id="loader"></div>
+      </div>
+    </header>
+    <main class="section-main pb-4 pt-5 mt-2">
+      <div class="tab-content">
+        <div class="tab-pane container-fluid active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6 mr-1 bg-light">
+                <h4 class="mt-4">Source</h4>
+                <div id="hero-source-table" class="overflow-scroll" style="height: 400px;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Bill Number</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Sub Total</th>
+                        <th scope="col">Grand Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-6 ml-1">
+                <h4 class="mt-4">Destination</h4>
+                <div id="hero-destination-table" class="overflow-scroll" style="height: 400px;">
+                  <table class="table" cellspacing="0">
+                    <thead class="bg-white">
+                      <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Sub Total</th>
+                        <th scope="col">Grand Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane container-fluid" id="process" role="tabpanel" aria-labelledby="process-tab">
+          <div class="row g-2">
+            <div class="form-check col-md-6 mt-3 mb-2">
+              <input class="form-check-input" type="checkbox" id="gridCheck">
+              <label class="form-check-label" for="gridCheck">
+                Initiate process on startup
+              </label>
+            </div>
+            <div class="col-md-6 d-grid gap-2 d-sm-flex justify-content-sm-end mb-4">
+              <button class="btn btn-primary">Start</button>
+              <button class="btn btn-secondary">Stop</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane container-fluid" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+          <div>
+            <h2>Connections</h2>
+            <h4 class="mt-2">Source</h4>
+            <div class="row g-2 border-bottom">
+              <div class="col-md-8 mb-2">
+                <label for="in-settings-source-host" class="form-label">Host</label>
+                <input id="in-settings-source-host" class="form-control form-control-sm" type="text" placeholder="localhost / IP Address">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-source-port" class="form-label">Port</label>
+                <input id="in-settings-source-port" class="form-control form-control-sm" type="text" placeholder="3306">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-source-user" class="form-label">User</label>
+                <input id="in-settings-source-user" class="form-control form-control-sm" type="text" placeholder="User">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-source-pass" class="form-label">Password</label>
+                <div class="input-group">
+                  <input id="in-settings-source-pass" class="form-control form-control-sm" type="password" placeholder="Password">
+                  <div class="input-group-append">
+                    <button id="btn-settings-source-pass" class="btn btn-outline-secondary btn-sm">
+                      <i class="fas fa-eye d-none" id="icon-settings-source-pass-show"></i>
+                      <i class="fas fa-eye-slash" id="icon-settings-source-pass-hide"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-source-db" class="form-label form-label-sm">Database</label>
+                <input id="in-settings-source-db" class="form-control form-control-sm" type="text" placeholder="Database">
+              </div>
+              <div class="mb-3">
+                <button id="btn-settings-source-test" class="btn btn-warning btn-sm">Test Connection</button>
+              </div>
+            </div>
+            <h4 class="mt-3">Destination</h4>
+            <div class="row g-2 border-bottom">
+              <div class="col-md-8 mb-2">
+                <label for="in-settings-destination-host" class="form-label">Host</label>
+                <input id="in-settings-destination-host" class="form-control form-control-sm" type="text" placeholder="localhost / IP Address">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-destination-port" class="form-label">Port</label>
+                <input id="in-settings-destination-port" class="form-control form-control-sm" type="text" placeholder="3306">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-destination-user" class="form-label">User</label>
+                <input id="in-settings-destination-user" class="form-control form-control-sm" type="text" placeholder="User">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-destination-pass" class="form-label">Password</label>
+                <div class="input-group">
+                  <input id="in-settings-destination-pass" class="form-control form-control-sm" type="password" placeholder="Password">
+                  <div class="input-group-append">
+                    <button id="btn-settings-destination-pass" class="btn btn-outline-secondary btn-sm">
+                      <i class="fas fa-eye d-none" id="icon-settings-destination-pass-show"></i>
+                      <i class="fas fa-eye-slash" id="icon-settings-destination-pass-hide"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-destination-db" class="form-label">Database</label>
+                <input id="in-settings-destination-db" class="form-control form-control-sm" type="text" placeholder="Database">
+              </div>
+              <div class="mb-3">
+                <button id="btn-settings-destination-test" class="btn btn-warning btn-sm">Test Connection</button>
+              </div>
+            </div>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-4 mb-4">
+              <button id="btn-settings-save" class="btn btn-primary">Save</button>
+              <button id="btn-settings-cancel" class="btn btn-danger">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="section-footer fixed-bottom py-1 bg-light border-top">
+      <div class="container-fluid">
+        <div>Process is [Inactive] [Active] [Running]</div>
+      </div>
+    </footer>
+</body>
+</html>

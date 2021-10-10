@@ -1,0 +1,57 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: auto;
+}
+thead {
+  position: sticky; 
+  top: 0; 
+  z-index: 1;
+}
+.nopadding {
+  padding: 0!important;
+  margin: 0!important;
+}
+.btn:focus {
+  outline: none!important;
+  box-shadow: none!important;
+}
+.btn:active {
+  background-color: white!important;
+}
+#overlay-block {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100;
+  cursor: pointer;
+}
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  margin: -46px 0 0 -46px;
+  border: 16px solid #999999;
+  border-radius: 50%;
+  border-top: 16px solid #f3f3f3;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

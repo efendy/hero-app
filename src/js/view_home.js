@@ -1,10 +1,24 @@
 console.log('view_home.js is READY');
 
-$('#datepicker-home-from').datepicker({
-  uiLibrary: 'bootstrap'
+var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+$('#datepicker-home-start').datepicker({
+  uiLibrary: 'bootstrap4',
+  format: 'yyyy-mm-dd',
+  locale: 'en-us',
+  showOtherMonths: false,
+  maxDate: today
 });
-$('#datepicker-home-to').datepicker({
-  uiLibrary: 'bootstrap4'
+$('#datepicker-home-end').datepicker({
+  uiLibrary: 'bootstrap4',
+  format: 'yyyy-mm-dd',
+  showOtherMonths: false,
+  minDate: function () {
+      return $('#datepicker-home-start').val();
+  },
+  maxDate: today
+});
+$('#dropdown-home-payment-type').dropdown({ 
+  uiLibrary: 'bootstrap4' 
 });
 
 applySelectAllEvents(document, "source");

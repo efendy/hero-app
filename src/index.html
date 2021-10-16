@@ -3,13 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Hero App!</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/jquery-ui.min.css"> <!-- https://api.jqueryui.com/theming/icons/ -->
-    <link rel="stylesheet" href="gijgo/css/gijgo.min.css">
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="bootstrap/js/jquery-ui.min.js"></script>
     <script src="gijgo/js/gijgo.min.js"></script>
     <script defer src="js/global.js"></script>
     <script defer src="js/storage.js"></script>
@@ -17,6 +12,11 @@
     <script defer src="js/view_home.js"></script>
     <script defer src="js/view_process.js"></script>
     <script defer src="js/view_settings.js"></script>
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="gijgo/css/gijgo.min.css">
+    <link rel="stylesheet" href="index.css">
   </head>
   <body class="site">
     <header class="section-header fixed-top py-1 bg-light">
@@ -40,12 +40,24 @@
         <div class="tab-pane container-fluid active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="row g-2">
             <div class="col-md-12">
-              <div>Filter</div>
               <div class="d-flex justify-content-start">
-                <div>From Date <input id="datepicker-home-from" width="150" type="text" class="form-control form-control-sm" /></div>
-                <div>To Date <input id="datepicker-home-to" /></div>
+                <div>
+                  Start Date: <input id="datepicker-home-start" width="160" />
+                  End Date: <input id="datepicker-home-end" width="160" />
+                </div>
+                <div>
+                  Payment type:
+                  <select id="dropdown-home-payment-type" width="250">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-4 mb-4">
+                  <button id="btn-home-filter" class="btn btn-primary">Filter</button>
+                </div>
               </div>
-              <div>Payment</div>
+              <div></div>
             </div>
             <div class="col-md-6">
               <div class="p-1">
@@ -54,7 +66,7 @@
               </div>
               <div id="hero-source-table" class="overflow-scroll bg-light">
                 <table class="table">
-                  <thead class="bg-secondary">
+                  <thead class="bg-secondary thead-hero">
                     <tr>
                       <th scope="col" style="min-width: 1rem;"><input class="form-check-input select-source-all" type="checkbox"></th>
                       <th scope="col" style="min-width: 6rem;">Code</th>
@@ -66,7 +78,7 @@
                       <th scope="col" style="min-width: 6rem;">Grand Total</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="tbody-hero">
                     <tr>
                       <th scope="row"><input class="form-check-input select-source-item" type="checkbox"></th>
                       <td>1</td>
@@ -80,7 +92,7 @@
                   </tbody>
                 </table>
               </div>
-              <div class="p-1">
+              <div class="pt-1 pb-4">
                 <strong></strong>
                 <div class="float-end">
                   <button id="btn-home-source-copy" class="btn btn-warning btn-sm">Copy</button>
@@ -94,7 +106,7 @@
               </div>
               <div id="hero-destination-table" class="overflow-scroll bg-light">
                 <table class="table">
-                  <thead class="bg-secondary">
+                  <thead class="bg-secondary thead-hero">
                     <tr>
                       <th scope="col" style="min-width: 1rem;"><input class="form-check-input select-destination-all" type="checkbox"></th>
                       <th scope="col" style="min-width: 6rem;">Code</th>
@@ -105,7 +117,7 @@
                       <th scope="col" style="min-width: 6rem;">Grand Total</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="tbody-hero">
                     <tr>
                       <th scope="row"><input class="form-check-input select-destination-item" type="checkbox"></th>
                       <td>1</td>
@@ -154,7 +166,7 @@
                   </tbody>
                 </table>
               </div>
-              <div class="p-1">
+              <div class="pt-1 pb-4">
                 <strong></strong>
                 <div class="float-end">
                   <button id="btn-home-destination-delete" class="btn btn-warning btn-sm">Delete</button>

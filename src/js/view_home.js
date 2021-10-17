@@ -1,32 +1,5 @@
 console.log('view_home.js is READY');
 
-var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-$('#datepicker-home-start').datepicker({
-  uiLibrary: 'bootstrap4',
-  format: 'yyyy-mm-dd',
-  locale: 'en-us',
-  showOtherMonths: false,
-  maxDate: today
-});
-$('#datepicker-home-end').datepicker({
-  uiLibrary: 'bootstrap4',
-  format: 'yyyy-mm-dd',
-  showOtherMonths: false,
-  minDate: function () {
-      return $('#datepicker-home-start').val();
-  },
-  maxDate: today
-});
-$('#dropdown-home-payment-type').dropdown({ 
-  uiLibrary: 'bootstrap4' 
-});
-
-applySelectAllEvents(document, "source");
-applySelectAllEvents(document, "destination");
-applySelectItemEvents(document, "source");
-applySelectItemEvents(document, "destination");
-
-
 var home = {
   search: function() {
     if (!sourceConnection.validate()) {
@@ -57,6 +30,34 @@ var home = {
     // CREATE TABLE IF NOT EXISTS tbl_transaksi;
   }
 }
+
+/* FILTER */
+var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+$('#datepicker-home-start').datepicker({
+  uiLibrary: 'bootstrap4',
+  format: 'yyyy-mm-dd',
+  locale: 'en-us',
+  showOtherMonths: false,
+  maxDate: today
+});
+$('#datepicker-home-end').datepicker({
+  uiLibrary: 'bootstrap4',
+  format: 'yyyy-mm-dd',
+  showOtherMonths: false,
+  minDate: function () {
+      return $('#datepicker-home-start').val();
+  },
+  maxDate: today
+});
+$('#dropdown-home-payment-type').dropdown({ 
+  uiLibrary: 'bootstrap4' 
+});
+
+/* TABLE */
+applySelectAllEvents(document, "source");
+applySelectAllEvents(document, "destination");
+applySelectItemEvents(document, "source");
+applySelectItemEvents(document, "destination");
 
 function applySelectAllEvents(doc, target) {
   // console.log("applySelectAllEvents:",target);

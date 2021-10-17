@@ -37,6 +37,7 @@
     </header>
     <main class="section-main pb-4 pt-5 mt-2">
       <div class="tab-content">
+        <!-- HOME -->
         <div class="tab-pane container-fluid active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="row g-2">
             <div class="col-md-12">
@@ -175,6 +176,7 @@
             </div>
           </div>
         </div>
+        <!-- PROCESS -->
         <div class="tab-pane container-fluid" id="process" role="tabpanel" aria-labelledby="process-tab">
           <div class="row g-2">
             <div class="form-check col-md-6 mt-3 mb-2">
@@ -189,9 +191,44 @@
             </div>
           </div>
         </div>
+        <!-- SETTINGS -->
         <div class="tab-pane container-fluid" id="settings" role="tabpanel" aria-labelledby="settings-tab">
           <div>
             <h2>Connections</h2>
+            <h4 class="mt-2">Master</h4>
+            <div class="row g-2 border-bottom">
+              <div class="col-md-8 mb-2">
+                <label for="in-settings-master-host" class="form-label">Host</label>
+                <input id="in-settings-master-host" class="form-control form-control-sm" type="text" placeholder="localhost / IP Address">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-master-port" class="form-label">Port</label>
+                <input id="in-settings-master-port" class="form-control form-control-sm" type="text" placeholder="3306">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-master-user" class="form-label">User</label>
+                <input id="in-settings-master-user" class="form-control form-control-sm" type="text" placeholder="User">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-master-pass" class="form-label">Password</label>
+                <div class="input-group">
+                  <input id="in-settings-master-pass" class="form-control form-control-sm" type="password" placeholder="Password">
+                  <div class="input-group-append">
+                    <button id="btn-settings-master-pass" class="btn btn-outline-secondary btn-sm">
+                      <span class="ui-icon ui-icon-unlocked d-none" style="font-size: 16px!important;" id="icon-settings-master-pass-show"></span>
+                      <span class="ui-icon ui-icon-locked" id="icon-settings-master-pass-hide"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="in-settings-master-db" class="form-label form-label-sm">Database</label>
+                <input id="in-settings-master-db" class="form-control form-control-sm" type="text" placeholder="Database">
+              </div>
+              <div class="mb-3">
+                <button id="btn-settings-master-test" class="btn btn-warning btn-sm">Test Connection</button>
+              </div>
+            </div>
             <h4 class="mt-2">Source</h4>
             <div class="row g-2 border-bottom">
               <div class="col-md-8 mb-2">
@@ -212,7 +249,7 @@
                   <input id="in-settings-source-pass" class="form-control form-control-sm" type="password" placeholder="Password">
                   <div class="input-group-append">
                     <button id="btn-settings-source-pass" class="btn btn-outline-secondary btn-sm">
-                      <span class="ui-icon ui-icon-unlocked d-none" id="icon-settings-source-pass-show"></span>
+                      <span class="ui-icon ui-icon-unlocked d-none" style="font-size: 16px!important;" id="icon-settings-source-pass-show"></span>
                       <span class="ui-icon ui-icon-locked" id="icon-settings-source-pass-hide"></span>
                     </button>
                   </div>

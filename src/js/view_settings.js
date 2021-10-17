@@ -1,14 +1,23 @@
 console.log('view_settings.js is READY');
 
 // init
-cancelSettings(document, sourceConnection, destinationConnection)
+const targetStorages = new Map([
+  ["master", masterStorage],
+  ["source", sourceStorage],
+  ["destination", destinationStorage]
+]);
+cancelSettings()
 
-document.getElementById('btn-settings-source-test').onclick = function() { testConnection(document, 'in-settings-source') };
-document.getElementById('btn-settings-destination-test').onclick = function() { testConnection(document, 'in-settings-destination') };
-document.getElementById('btn-settings-save').onclick = function() { saveSettings(document, sourceConnection, destinationConnection) };
-document.getElementById('btn-settings-cancel').onclick = function() { cancelSettings(document, sourceConnection, destinationConnection) };
+document.getElementById('btn-settings-master-pass').onclick = function() { toggleShowPassword('master') }
 document.getElementById('btn-settings-source-pass').onclick = function() { toggleShowPassword('source') }
 document.getElementById('btn-settings-destination-pass').onclick = function() { toggleShowPassword('destination') }
+
+document.getElementById('btn-settings-master-test').onclick = function() { testConnection('in-settings-master') };
+document.getElementById('btn-settings-source-test').onclick = function() { testConnection('in-settings-source') };
+document.getElementById('btn-settings-destination-test').onclick = function() { testConnection('in-settings-destination') };
+
+document.getElementById('btn-settings-save').onclick = function() { saveSettings() };
+document.getElementById('btn-settings-cancel').onclick = function() { cancelSettings() };
 
 function toggleShowPassword(target) {
   console.log('call toggleShowPassword');
@@ -29,15 +38,14 @@ function toggleShowPassword(target) {
   }
 }
 
-function saveSettings(doc, sourceConnection, destinationConnection) {
+function saveSettings() {
   console.log('call saveSettings');
-  let prefixConnections = ['in-settings-source', 'in-settings-destination']
-  for (prefix of prefixConnections) {
-    let inSettingsHost = doc.getElementById(prefix+'-host');
-    let inSettingsPort = doc.getElementById(prefix+'-port');
-    let inSettingsUser = doc.getElementById(prefix+'-user');
-    let inSettingsPass = doc.getElementById(prefix+'-pass');
-    let inSettingsDb = doc.getElementById(prefix+'-db');
+  for (const [target, storage] of targetStorages.entries()) {
+    let inSettingsHost = document.getElementById('in-settings-'+target+'-host');
+    let inSettingsPort = document.getElementById('in-settings-'+target+'-port');
+    let inSettingsUser = document.getElementById('in-settings-'+target+'-user');
+    let inSettingsPass = document.getElementById('in-settings-'+target+'-pass');
+    let inSettingsDb = document.getElementById('in-settings-'+target+'-db');
 
     if (inSettingsHost.value == "") {
       return "ERR: "
@@ -55,52 +63,41 @@ function saveSettings(doc, sourceConnection, destinationConnection) {
       return "ERR: db name cannot has spaces and special characters"
     }
 
-    if (prefix == 'in-settings-source') {
-      sourceConnection.store(
-        inSettingsHost.value, 
-        inSettingsPort.value, 
-        inSettingsUser.value,
-        inSettingsPass.value,
-        inSettingsDb.value
-      )
-    } else if (prefix == 'in-settings-destination') {
-      destinationConnection.store(
-        inSettingsHost.value, 
-        inSettingsPort.value, 
-        inSettingsUser.value,
-        inSettingsPass.value,
-        inSettingsDb.value
-      )
-    }
+    storage.store(
+      inSettingsHost.value, 
+      inSettingsPort.value, 
+      inSettingsUser.value,
+      inSettingsPass.value,
+      inSettingsDb.value
+    )
   }
   console.log('saveSettings - Success');
 }
 
-function cancelSettings(doc, sourceConnection, destinationConnection) {
+function cancelSettings() {
   console.log('call cancelSettings');
-  let prefixConnections = ['in-settings-source', 'in-settings-destination']
-  for (prefix of prefixConnections) {
-    let inSettingsHost = doc.getElementById(prefix+'-host');
-    let inSettingsPort = doc.getElementById(prefix+'-port');
-    let inSettingsUser = doc.getElementById(prefix+'-user');
-    let inSettingsPass = doc.getElementById(prefix+'-pass');
-    let inSettingsDb = doc.getElementById(prefix+'-db');
+  for (const [target, storage] of targetStorages.entries()) {
+    let inSettingsHost = document.getElementById('in-settings-'+target+'-host');
+    let inSettingsPort = document.getElementById('in-settings-'+target+'-port');
+    let inSettingsUser = document.getElementById('in-settings-'+target+'-user');
+    let inSettingsPass = document.getElementById('in-settings-'+target+'-pass');
+    let inSettingsDb = document.getElementById('in-settings-'+target+'-db');
     
-    inSettingsHost.value = (prefix == 'in-settings-source')? sourceConnection.host() : destinationConnection.host();
-    inSettingsPort.value = (prefix == 'in-settings-source')? sourceConnection.port() : destinationConnection.port();
-    inSettingsUser.value = (prefix == 'in-settings-source')? sourceConnection.user() : destinationConnection.user();
-    inSettingsPass.value = (prefix == 'in-settings-source')? sourceConnection.pass() : destinationConnection.pass();
-    inSettingsDb.value = (prefix == 'in-settings-source')? sourceConnection.database() : destinationConnection.database();
+    inSettingsHost.value = storage.host();
+    inSettingsPort.value = storage.port();
+    inSettingsUser.value = storage.user();
+    inSettingsPass.value = storage.pass();
+    inSettingsDb.value = storage.database();
   }
 }
 
-function testConnection(doc, prefix) {
+function testConnection(prefix) {
   console.log('call testConnection');
-  let inSettingsHost = doc.getElementById(prefix+'-host');
-  let inSettingsPort = doc.getElementById(prefix+'-port');
-  let inSettingsUser = doc.getElementById(prefix+'-user');
-  let inSettingsPass = doc.getElementById(prefix+'-pass');
-  let inSettingsDb = doc.getElementById(prefix+'-db');
+  let inSettingsHost = document.getElementById(prefix+'-host');
+  let inSettingsPort = document.getElementById(prefix+'-port');
+  let inSettingsUser = document.getElementById(prefix+'-user');
+  let inSettingsPass = document.getElementById(prefix+'-pass');
+  let inSettingsDb = document.getElementById(prefix+'-db');
 
   // Add the credentials to access your database
   let connection = mysql.createConnection({
@@ -120,13 +117,7 @@ function testConnection(doc, prefix) {
     } else {
       alert("Connection Success");
     }
-    console.log('connected as id ' + connection.threadId);
+    console.log('connected as id:',connection.threadId,'state:',connection.state);
     connection.end();
   });
-
-  // TODO
-  // console.log(connection);
-  // if (connection.state == "authenticated") {
-  //   dialog.showErrorBox({title: "", content: ""});
-  // }
 }

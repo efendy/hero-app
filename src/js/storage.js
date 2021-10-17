@@ -1,35 +1,34 @@
 const storage = require('electron-localstorage');
 console.log('LOADED storage.js');
 
-var sourceConnection = {
-  host: function() {
-    let rsp = storage.getItem('source-host');
-    return rsp;
-  },
-  port: function() {
-    let rsp = storage.getItem('source-port');
-    return rsp;
-  },
-  user: function() {
-    let rsp = storage.getItem('source-user');
-    return rsp;
-  },
-  pass: function() {
-    let rsp = storage.getItem('source-pass');
-    return rsp;
-  },
-  database: function() {
-    let rsp = storage.getItem('source-database');
-    return rsp;
-  },
-  store: function(host, port, user, pass, database) {
-    storage.setItem("source-host", host);
-    storage.setItem("source-port", port);
-    storage.setItem("source-user", user);
-    storage.setItem("source-pass", pass);
-    storage.setItem("source-database", database);
-  },
-  validate: function() {
+class Storage {
+  constructor(target) {
+    this.target = target;
+    // this.storage = storage;
+  }
+  host() {
+    return storage.getItem(this.target+'-host');
+  }
+  port() {
+    return storage.getItem(this.target+'-port');
+  }
+  user() {
+    return storage.getItem(this.target+'-user');
+  }
+  pass() {
+    return storage.getItem(this.target+'-pass');
+  }
+  database() {
+    return storage.getItem(this.target+'-database');
+  }
+  store(host, port, user, pass, database) {
+    storage.setItem(this.target+"-host", host);
+    storage.setItem(this.target+"-port", port);
+    storage.setItem(this.target+"-user", user);
+    storage.setItem(this.target+"-pass", pass);
+    storage.setItem(this.target+"-database", database);
+  }
+  validate() {
     if (this.host() == "" || this.port() == "" || this.user() == "" || this.pass() == "" || this.database() == "") {
       return false
     }
@@ -37,38 +36,6 @@ var sourceConnection = {
   }
 }
 
-var destinationConnection = {
-  host: function() {
-    let rsp = storage.getItem('destination-host');
-    return rsp;
-  },
-  port: function() {
-    let rsp = storage.getItem('destination-port');
-    return rsp;
-  },
-  user: function() {
-    let rsp = storage.getItem('destination-user');
-    return rsp;
-  },
-  pass: function() {
-    let rsp = storage.getItem('destination-pass');
-    return rsp;
-  },
-  database: function() {
-    let rsp = storage.getItem('destination-database');
-    return rsp;
-  },
-  store: function(host, port, user, pass, database) {
-    storage.setItem("destination-host", host);
-    storage.setItem("destination-port", port);
-    storage.setItem("destination-user", user);
-    storage.setItem("destination-pass", pass);
-    storage.setItem("destination-database", database);
-  },
-  validate: function() {
-    if (this.host() == "" || this.port() == "" || this.user() == "" || this.pass() == "" || this.database() == "") {
-      return false
-    }
-    return true;
-  }
-}
+var masterStorage = new Storage("master");
+var sourceStorage = new Storage("source");
+var destinationStorage = new Storage("destination");

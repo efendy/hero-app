@@ -1,0 +1,14 @@
+SELECT `view_tax_jakarta`.`Sales_No`,
+    `view_tax_jakarta`.`Receipt_No`,
+    `view_tax_jakarta`.`Tanggal_Trx`,
+    `view_tax_jakarta`.`Subtotal`,
+    `view_tax_jakarta`.`Service_Charge`,
+    `view_tax_jakarta`.`Tax`,
+    `view_tax_jakarta`.`Amount`,
+    `view_tax_jakarta`.`SaleDate`,
+    `view_tax_jakarta`.`OutletCode`,
+    `view_tax_jakarta`.`OutletName`,
+    `view_tax_jakarta`.`ShopID`
+FROM `fnb_pos`.`view_tax_jakarta`;
+
+VIEW `view_tax_jakarta` AS (select coalesce(`a`.`billNum`,`a`.`salesNum`) AS `Sales_No`,coalesce(`a`.`billNum`,`a`.`salesNum`) AS `Receipt_No`,concat(date_format(`a`.`salesDateOut`,'%m/%d/%Y'),' ',date_format(`a`.`salesDateOut`,'%T')) AS `Tanggal_Trx`,`a`.`subtotal` AS `Subtotal`,`a`.`otherTaxTotal` AS `Service_Charge`,`a`.`vatTotal` AS `Tax`,(`a`.`grandTotal` - `a`.`roundingTotal`) AS `Amount`,`a`.`salesDate` AS `SaleDate`,`b`.`branchCode` AS `OutletCode`,`b`.`branchName` AS `OutletName`,`a`.`branchID` AS `ShopID` from (`tr_saleshead` `a` join `ms_branch` `b` on((`a`.`branchID` = `b`.`branchID`))) where ((`a`.`statusID` = 8) and (not(`a`.`salesNum` in (select `a`.`salesNum` from ((`tr_saleshead` `a` join `tr_salespayment` `b` on((`a`.`salesNum` = `b`.`salesNum`))) join `ms_paymentmethod` `c` on(((`b`.`paymentMethodID` = `c`.`paymentMethodID`) and (`c`.`paymentMethodTypeID` = 7)))) group by `a`.`salesNum` union select `a`.`salesNum` from (((`tr_saleshead` `a` join `tr_saleslink` `b` on((`a`.`salesNum` = `b`.`linkSalesNum`))) join `tr_salespayment` `c` on((`b`.`salesNum` = `c`.`salesNum`))) join `ms_paymentmethod` `d` on(((`c`.`paymentMethodID` = `d`.`paymentMethodID`) and (`d`.`paymentMethodTypeID` = 7)))) group by `a`.`salesNum`)))));

@@ -88,7 +88,6 @@ typings/
 # Electron-Forge
 out/
 
-db/
 src/bootstrap4/
 src/bootstrap-ui/
 src/bootstrap-multiselect/

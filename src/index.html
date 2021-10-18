@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Hero App!</title>
     <script>window.$ = window.jQuery = require('jquery');</script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap5/js/bootstrap.min.js"></script>
     <script src="gijgo/js/gijgo.min.js"></script>
+    <script defer src="bootstrap-select/js/bootstrap-select.min.js"></script>
     <script defer src="js/global.js"></script>
     <script defer src="js/storage.js"></script>
     <script defer src="js/database.js"></script>
@@ -13,8 +14,10 @@
     <script defer src="js/view_process.js"></script>
     <script defer src="js/view_settings.js"></script>
 
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/jquery-ui.min.css">
+    <!-- <link rel="stylesheet" href="bootstrap-ui/css/bootstrap-ui.min.css"> -->
+    <link rel="stylesheet" href="bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="jquery-ui/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="bootstrap-select/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="gijgo/css/gijgo.min.css">
     <link rel="stylesheet" href="index.css">
   </head>
@@ -41,24 +44,37 @@
         <div class="tab-pane container-fluid active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="row g-2">
             <div class="col-md-12">
-              <div class="d-flex justify-content-start">
-                <div>
-                  Start Date: <input id="datepicker-home-start" width="160" />
-                  End Date: <input id="datepicker-home-end" width="160" />
+              <div class="row mt-2">
+                <div class="col-sm-3">
+                  <strong>Start Date:</strong>
+                  <input id="datepicker-home-start" width="100%" />
                 </div>
-                <div>
-                  Payment type:
-                  <select id="dropdown-home-payment-type" width="250">
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <div class="col-sm-3">
+                  <strong>End Date:</strong>
+                  <input id="datepicker-home-end" width="100%" />
+                </div>
+                <div class="col-sm-6">
+                  <strong>Payment Method:</strong>
+                  <select id="dropdown-home-payment-method" multiple>
                   </select>
                 </div>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-4 mb-4">
-                  <button id="btn-home-filter" class="btn btn-primary">Filter</button>
-                </div>
               </div>
-              <div></div>
+              <!-- <div class="row mt-2">
+                <div class="col-sm-6">
+                  <strong>Sub Total:</strong>
+                  <select>
+                    <option value="=">=</option>
+                    <option value="<">&lt;</option>
+                    <option value="<=">&lt;=</option>
+                    <option value=">">&gt;</option>
+                    <option value=">=">&gt;=</option>
+                  </select>
+                  <input width="100%" />
+                </div>
+              </div> -->
+              <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-2">
+                <button id="btn-home-filter" class="btn btn-primary">Filter</button>
+              </div>
             </div>
             <div class="col-md-6">
               <div class="p-1">

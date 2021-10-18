@@ -47,6 +47,7 @@
   "dependencies": {
     "electron-localstorage": "^1.0.5",
     "electron-squirrel-startup": "^1.0.0",
+    "excel4node": "^1.7.2",
     "jquery": "^3.6.0",
     "mysql": "^2.18.1"
   },

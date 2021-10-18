@@ -94,3 +94,33 @@ input, .btn-outline-secondary {
   margin-bottom: 2rem!important;
   padding-bottom: 2rem!important;
 }
+
+/* .dropdown:hover > .dropdown-menu {
+  display: block;
+  margin: 0px;
+} */
+
+.dropdown {
+  width: 100%!important;
+}
+/* .dropdown:active > .dropdown-menu {
+  display: block;
+}*/
+/* .dropdown:hover > .dropdown-menu {
+  display: block!important;
+} */
+
+/* ul .dropdown-menu {
+  display: block!important;
+} */
+
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark {
+  /* position: relative; */
+  width: 20px;
+  height: 20px;
+  background-image: url(images/ui-icons_444444_256x240.png)!important;
+}
+
+.bootstrap-select>.dropdown-toggle {
+  border: 1px solid #ced4da!important;
+}

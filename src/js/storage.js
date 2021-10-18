@@ -1,10 +1,9 @@
 const storage = require('electron-localstorage');
 console.log('LOADED storage.js');
 
-class Storage {
+class DbStorage {
   constructor(target) {
     this.target = target;
-    // this.storage = storage;
   }
   host() {
     return storage.getItem(this.target+'-host');
@@ -36,6 +35,18 @@ class Storage {
   }
 }
 
-var masterStorage = new Storage("master");
-var sourceStorage = new Storage("source");
-var destinationStorage = new Storage("destination");
+var masterStorage = new DbStorage("master");
+var sourceStorage = new DbStorage("source");
+var destinationStorage = new DbStorage("destination");
+
+class ProcessStorage {
+  constructor() {
+  }
+  getInitStart() {
+    return storage.getItem('process-init-start');
+  }
+  setInitStart(value) {
+    storage.setItem('process-init-start', value);
+  }
+  
+}

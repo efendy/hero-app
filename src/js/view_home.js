@@ -31,7 +31,7 @@ var home = {
   }
 }
 
-/* FILTER */
+/* FILTER - DATE RANGE */
 var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 $('#datepicker-home-start').datepicker({
   uiLibrary: 'bootstrap4',
@@ -49,33 +49,82 @@ $('#datepicker-home-end').datepicker({
   },
   maxDate: today
 });
-$('#dropdown-home-payment-type').dropdown({ 
-  uiLibrary: 'bootstrap4' 
+
+/* FILTER - PAYMENT METHOD */
+var selectValues = {
+  "cash": "CASH",
+  "debit": "DEBIT BCA",
+  "ovo": "OVO",
+  "dana": "DANA"
+};
+$('#dropdown-home-payment-method').empty();
+$.each(selectValues, function(key, value) {
+  var $option = $("<option/>", {
+    value: key,
+    text: value
+  });
+  $('#dropdown-home-payment-method').append($option);
+});
+$('#dropdown-home-payment-method').selectpicker('refresh');
+
+// HACK UIUX home dropdown multiselect
+$('.dropdown').on( "click", function() { 
+  if ($(this).children('#dropdown-home-payment-method')) {
+    $(this).children('.dropdown-menu').toggle();
+    $(this).children('.dropdown-menu').children('.inner').children('.dropdown-menu').toggle();
+  }
 });
 
-/* TABLE */
-applySelectAllEvents(document, "source");
-applySelectAllEvents(document, "destination");
-applySelectItemEvents(document, "source");
-applySelectItemEvents(document, "destination");
+/* FILTER - BUTTON */
+document.getElementById("btn-home-filter").onclick = function() {
+  console.log("click!",this);
+  let dateStart = $("#datepicker-home-start").val();
+  let dateEnd = $("#datepicker-home-end").val();
+  let payment = $("#dropdown-home-payment-method").val();
+  console.log(dateStart, dateEnd, payment);
 
-function applySelectAllEvents(doc, target) {
+  //SELECT * FROM `table` 
+  // WHERE date_column >= '2014-01-01' AND date_column <= '2015-01-01' AND payment_method IN (,);
+  let queryStatement = "SELECT * FROM `table`";
+  let whereStatement = [];
+  if (dateStart) {
+    whereStatement.push("date_column >= '"+dateStart+"'");
+  }
+  if (dateEnd) {
+    whereStatement.push("date_column <= '"+dateEnd+"'");
+  }
+  if (payment.length > 0) {
+    whereStatement.push("payment_method IN ('"+payment.join("','")+"')");
+  }
+  if (whereStatement.length > 0) {
+    queryStatement += " WHERE " + whereStatement.join("AND");
+  }
+  console.log(queryStatement);
+}
+
+/* RESULT - TABLE */
+applySelectAllEvents("source");
+applySelectAllEvents("destination");
+applySelectItemEvents("source");
+applySelectItemEvents("destination");
+
+function applySelectAllEvents(target) {
   // console.log("applySelectAllEvents:",target);
-  doc.getElementsByClassName("select-"+target+"-all")[0].onclick = function() { 
+  document.getElementsByClassName("select-"+target+"-all")[0].onclick = function() { 
     // console.log("select-"+target+"-all checked?",this.checked);
-    let items = doc.getElementsByClassName("select-"+target+"-item");
+    let items = document.getElementsByClassName("select-"+target+"-item");
     for (var i=0; i < items.length; i++) {
       items[i].checked = this.checked;
     }
   };
 }
 
-function applySelectItemEvents(doc, target) {
+function applySelectItemEvents(target) {
   console.log("applySelectItemEvents:",target);
-  let selectItems = doc.getElementsByClassName("select-"+target+"-item");
+  let selectItems = document.getElementsByClassName("select-"+target+"-item");
   for (var i=0; i < selectItems.length; i++) {
     selectItems[i].onclick = function() {
-      doc.getElementsByClassName("select-"+target+"-all")[0].checked = false;
+      document.getElementsByClassName("select-"+target+"-all")[0].checked = false;
     }
   }
 }

@@ -14,7 +14,6 @@
     <script defer src="js/view_process.js"></script>
     <script defer src="js/view_settings.js"></script>
 
-    <!-- <link rel="stylesheet" href="bootstrap-ui/css/bootstrap-ui.min.css"> -->
     <link rel="stylesheet" href="bootstrap5/css/bootstrap.min.css">
     <link rel="stylesheet" href="jquery-ui/css/jquery-ui.min.css">
     <link rel="stylesheet" href="bootstrap-select/css/bootstrap-select.min.css">
@@ -25,10 +24,10 @@
     <header class="section-header fixed-top py-1 bg-light">
       <ul class="nav nav-tabs" >
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><span class="glyphicon glyphicon-home offset-right" aria-hidden="true"></span>Home</button>
+          <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><span class="glyphicon glyphicon-home offset-right" aria-hidden="true"></span>Home</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="process-tab" data-bs-toggle="tab" data-bs-target="#process" type="button" role="tab" aria-controls="process" aria-selected="false"><span class="glyphicon glyphicon-filter offset-right" aria-hidden="true"></span>Process</button>
+          <button class="nav-link active" id="process-tab" data-bs-toggle="tab" data-bs-target="#process" type="button" role="tab" aria-controls="process" aria-selected="false"><span class="glyphicon glyphicon-filter offset-right" aria-hidden="true"></span>Process</button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false"><span class="glyphicon glyphicon-cog offset-right" aria-hidden="true"></span>Settings</button>
@@ -41,7 +40,7 @@
     <main class="section-main pb-4 pt-5 mt-2">
       <div class="tab-content">
         <!-- HOME -->
-        <div class="tab-pane container-fluid active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane container-fluid" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="row g-2">
             <div class="col-md-12">
               <div class="row mt-2">
@@ -193,7 +192,7 @@
           </div>
         </div>
         <!-- PROCESS -->
-        <div class="tab-pane container-fluid" id="process" role="tabpanel" aria-labelledby="process-tab">
+        <div class="tab-pane container-fluid active" id="process" role="tabpanel" aria-labelledby="process-tab">
           <div class="row g-2">
             <div class="form-check col-md-6 mt-3 mb-2">
               <input class="form-check-input" type="checkbox" id="gridCheck">

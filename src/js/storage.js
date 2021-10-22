@@ -1,4 +1,4 @@
-const storage = require('electron-localstorage');
+const storage = require('electron-localStorage');
 console.log('LOADED storage.js');
 
 class DbStorage {

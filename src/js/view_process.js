@@ -14,6 +14,7 @@ var btnSyncStart = $("#btn-process-sync-start");
 var btnSyncStop = $("#btn-process-sync-stop");
 var btnCopyStart = $("#btn-process-copy-start");
 var btnCopyStop = $("#btn-process-copy-stop");
+var selectCopyPaymentMethod = $("#select-process-copy-payment-method");
 
 // INITIALIZE
 if (appProcess.getInitSync()) {
@@ -55,6 +56,23 @@ btnCopyStop.on("click", function() {
   btnCopyStart.show();
 });
 
-// 
-
+// DATA LIST
+function process_ReloadPaymentMethodSelection(paymentMethodMap) {
+  selectCopyPaymentMethod.empty();
+  paymentMethodMap.forEach(function(value, key) {
+    var $option = $("<option/>", {
+      value: key,
+      text: value
+    });
+    selectCopyPaymentMethod.append($option);
+  });
+  // selectCopyPaymentMethod.empty();
+  // $.each(paymentMethodList, function(key, value) {
+  //   var $option = $("<option/>", {
+  //     value: key,
+  //     text: value
+  //   });
+  //   selectCopyPaymentMethod.append($option);
+  // });
+}
 /* --- UI Handling END ------ */

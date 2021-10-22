@@ -51,24 +51,22 @@ $('#datepicker-home-end').datepicker({
 });
 
 /* FILTER - PAYMENT METHOD */
-var selectValues = {
-  "cash": "CASH",
-  "debit": "DEBIT BCA",
-  "ovo": "OVO",
-  "dana": "DANA"
-};
-$('#dropdown-home-payment-method').empty();
-$.each(selectValues, function(key, value) {
-  var $option = $("<option/>", {
-    value: key,
-    text: value
+function home_ReloadPaymentMethodSelection(paymentMethodMap) {
+  console.log("home_ReloadPaymentMethodSelection",paymentMethodMap);
+  $('#dropdown-home-payment-method').empty();
+  paymentMethodMap.forEach(function(value, key) {
+    var $option = $("<option/>", {
+      value: key,
+      text: value
+    });
+    $('#dropdown-home-payment-method').append($option);
   });
-  $('#dropdown-home-payment-method').append($option);
-});
-$('#dropdown-home-payment-method').selectpicker('refresh');
+  $('#dropdown-home-payment-method').selectpicker('refresh');
+}
 
 // HACK UIUX home dropdown multiselect
-$('.dropdown').on( "click", function() { 
+$('#dropdown-home-payment-method').selectpicker();
+$('.dropdown').on("click", function() { 
   if ($(this).children('#dropdown-home-payment-method')) {
     $(this).children('.dropdown-menu').toggle();
     $(this).children('.dropdown-menu').children('.inner').children('.dropdown-menu').toggle();

@@ -55,6 +55,8 @@
                 <div class="col-sm-6">
                   <strong>Payment Method:</strong>
                   <select id="dropdown-home-payment-method" multiple>
+                    <option value="1">TEST</option>
+                    <option value="2">TWO</option>
                   </select>
                 </div>
               </div>
@@ -197,30 +199,58 @@
             <h4 class="mt-2">General</h4>
           </div> -->
           <div>
-            <h4 class="mt-2">Sync Data</h4>
-            <div class="row g-2 border-bottom">
-              <div class="form-check col-md-6 mt-3 mb-2">
+            <div class="row g-2 border-bottom pb-2 mt-2">
+              <div class="form-check col-md-6 mb-2">
+                <h4>Sync Data</h4>
                 <input id="in-process-init-startup-sync" class="form-check-input" type="checkbox">
                 <label class="form-check-label" for="in-process-init-startup-sync">
                   Automatically Sync Data on Startup
                 </label>
               </div>
-              <div class="col-md-6 d-grid gap-2 d-sm-flex justify-content-sm-end mb-4">
+              <div class="col-md-6 d-grid gap-2 d-sm-flex justify-content-sm-end">
                 <button id="btn-process-sync-start" class="btn btn-primary" width="120">Start</button>
                 <button id="btn-process-sync-stop" class="btn btn-warning" width="120">Stop</button>
               </div>
             </div>
-            <h4 class="mt-2">Copy Data</h4>
-            <div class="row g-2 border-bottom">
-              <div class="form-check col-md-6 mt-3 mb-2">
+            <div class="row g-2 border-bottom pb-2 mt-2">
+              <div class="form-check col-md-6 mb-2">
+                <h4>Copy Data</h4>
                 <input id="in-process-init-startup-copy" class="form-check-input" type="checkbox">
                 <label class="form-check-label" for="in-process-init-startup-copy">
                   Automatically Copy Data on Startup
                 </label>
               </div>
-              <div class="col-md-6 d-grid gap-2 d-sm-flex justify-content-sm-end mb-4">
+              <div class="col-md-6 d-grid gap-2 d-sm-flex justify-content-sm-end">
                 <button id="btn-process-copy-start" class="btn btn-primary">Start</button>
                 <button id="btn-process-copy-stop" class="btn btn-warning">Stop</button>
+              </div>
+              <div class="col-md-12">
+                <h6>Nominal</h6>
+                <select>
+                  <option value="=">=</option>
+                  <option value="<">&lt;</option>
+                  <option value="<=">&lt;=</option>
+                  <option value=">">&gt;</option>
+                  <option value=">=">&gt;=</option>
+                </select>
+                <input width="100%" />
+              </div>
+              <div class="col-md-12">
+                <h6>Bill per Hari</h6>
+                <input width="100%" />
+              </div>
+              <div class="col-md-12">
+                <h6>Filter Bill Number</h6>
+                <select width="100%">
+                  <option value="all">ALL</option>
+                  <option value="odd">ODD</option>
+                  <option value="even">EVEN</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                <h6>Payment Method</h6>
+                <select id="select-process-copy-payment-method" multiple width="100%">
+                </select>
               </div>
             </div>
           </div>

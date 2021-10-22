@@ -4,6 +4,7 @@ class Database {
   constructor(dbStorage) {
     this.dbStorage = dbStorage;
   }
+
   connection() {
     if (this.dbStorage.validate()) {
       return mysql.createConnection({
@@ -16,6 +17,7 @@ class Database {
     }
     return false;
   }
+
   createTable(tableName, callback) {
     let conn = this.connection()
     if (conn) {
@@ -31,6 +33,7 @@ class Database {
       conn.end();
     }
   }
+
   insertUser(firstName, lastName, callback) {
     let conn = this.connection()
     if (conn) {
@@ -43,11 +46,12 @@ class Database {
       conn.end();
     }
   }
-  selectUser(callback) {
+
+  query(rawQuery, callback) {
     let conn = this.connection()
     if (conn) {
       conn.query(
-        'SELECT * FROM `user_tmp`',
+        rawQuery,
         callback
       );
       conn.end();
@@ -103,14 +107,21 @@ var destinationDb = new Database(destinationStorage);
 //   }
 // });
 
-masterDb.selectUser(function (error, results, fields) {
-  if (error) {
-    alert("Error: \n" + error.message);
-  }
-  if (fields) {
-    console.log("selectUser()","FIELDS",fields);
-  }
-  if (results) {
-    console.log("selectUser()","RESULTS",results);
-  }
-});
+function syncPaymentMethod() {
+  masterDb.query('SELECT paymentMethodID,paymentMethodName FROM `ms_paymentmethod`', function (error, results, fields) {
+    if (error) {
+      alert("Error: \n" + error.message);
+    }
+    if (fields) {
+      console.log("loadPaymentMethod()","FIELDS",fields);
+    }
+    if (results) {
+      console.log("loadPaymentMethod()","RESULTS",results);
+      reloadPaymentMethodList(results);
+    }
+  });
+}
+
+
+/* INITIALIZE */
+syncPaymentMethod();

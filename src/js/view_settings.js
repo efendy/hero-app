@@ -48,20 +48,21 @@ function saveSettings() {
     let inSettingsDb = document.getElementById('in-settings-'+target+'-db');
 
     if (inSettingsHost.value == "") {
-      return "ERR: "
+      inSettingsHost.value = "127.0.0.1"
     }
     if (inSettingsPort.value == "") {
-      return "ERR: port has to be numeric"
+      inSettingsPort.value = "3306"
     }
-    if (inSettingsUser.value == "") {
-      return "ERR: user name cannot has spaces and special characters"
-    }
-    if (inSettingsPass.value == "") {
-      return "ERR: "
-    }
-    if (inSettingsDb.value == "") {
-      return "ERR: db name cannot has spaces and special characters"
-    }
+    // NOT REQUIRED AT THE MOMENT
+    // if (inSettingsUser.value == "") {
+    //   return "ERR: user name cannot has spaces and special characters"
+    // }
+    // if (inSettingsPass.value == "") {
+    //   return "ERR: "
+    // }
+    // if (inSettingsDb.value == "") {
+    //   return "ERR: db name cannot has spaces and special characters"
+    // }
 
     storage.store(
       inSettingsHost.value, 

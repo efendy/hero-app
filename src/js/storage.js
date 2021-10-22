@@ -1,4 +1,4 @@
-const storage = require('electron-localStorage');
+const localStorage = require('electron-localStorage');
 console.log('LOADED storage.js');
 
 class DbStorage {
@@ -6,26 +6,27 @@ class DbStorage {
     this.target = target;
   }
   host() {
-    return storage.getItem(this.target+'-host');
+    console.log(localStorage);
+    return localStorage.getItem(this.target+'-host');
   }
   port() {
-    return storage.getItem(this.target+'-port');
+    return localStorage.getItem(this.target+'-port');
   }
   user() {
-    return storage.getItem(this.target+'-user');
+    return localStorage.getItem(this.target+'-user');
   }
   pass() {
-    return storage.getItem(this.target+'-pass');
+    return localStorage.getItem(this.target+'-pass');
   }
   database() {
-    return storage.getItem(this.target+'-database');
+    return localStorage.getItem(this.target+'-database');
   }
   store(host, port, user, pass, database) {
-    storage.setItem(this.target+"-host", host);
-    storage.setItem(this.target+"-port", port);
-    storage.setItem(this.target+"-user", user);
-    storage.setItem(this.target+"-pass", pass);
-    storage.setItem(this.target+"-database", database);
+    localStorage.setItem(this.target+"-host", host);
+    localStorage.setItem(this.target+"-port", port);
+    localStorage.setItem(this.target+"-user", user);
+    localStorage.setItem(this.target+"-pass", pass);
+    localStorage.setItem(this.target+"-database", database);
   }
   validate() {
     if (this.host() == "" || this.port() == "" || this.user() == "" || this.pass() == "" || this.database() == "") {
@@ -42,11 +43,16 @@ var destinationStorage = new DbStorage("destination");
 class ProcessStorage {
   constructor() {
   }
-  getInitStart() {
-    return storage.getItem('process-init-start');
+  getInitSync() {
+    return localStorage.getItem('process-init-start-sync');
   }
-  setInitStart(value) {
-    storage.setItem('process-init-start', value);
+  getInitCopy() {
+    return localStorage.getItem('process-init-start-copy');
   }
-  
+  setInitSync(value) {
+    localStorage.setItem('process-init-start-sync', value);
+  }
+  setInitCopy(value) {
+    localStorage.setItem('process-init-start-copy', value);
+  }
 }

@@ -122,6 +122,5 @@ function syncPaymentMethod() {
   });
 }
 
-
 /* INITIALIZE */
 syncPaymentMethod();

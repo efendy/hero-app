@@ -103,6 +103,9 @@ input, .btn-outline-secondary {
 .dropdown {
   width: 100%!important;
 }
+.dropdown-menu {
+  font-size: .9rem;
+}
 /* .dropdown:active > .dropdown-menu {
   display: block;
 }*/
@@ -123,4 +126,19 @@ input, .btn-outline-secondary {
 
 .bootstrap-select>.dropdown-toggle {
   border: 1px solid #ced4da!important;
+}
+
+.form-control-custom {
+  border: 1px solid #ced4da!important;
+}
+
+.btn {
+  padding: .2rem .75rem;
+}
+
+option {
+  font-size: .8rem!important;
+}
+select {
+  font-size: .8rem!important;
 }

@@ -11,6 +11,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 640,
+    icon: __dirname + '/index.png',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

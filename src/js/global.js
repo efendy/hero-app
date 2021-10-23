@@ -27,6 +27,17 @@ $('.dropdown').on("click", function() {
     $(this).children('.dropdown-menu').children('.inner').children('.dropdown-menu').toggle();
   }
 });
+var dropdownMenuTimer;
+var dropdownMenuDelay = 1000;
+$('.dropdown-menu').on("mouseout", function() {
+  dropdownMenuTimer = setTimeout(function() {
+    $('.dropdown-menu.open').toggle();
+    $('.dropdown-menu').children('.inner').children('.dropdown-menu').toggle();
+  }, dropdownMenuDelay);
+});
+$('.dropdown-menu').on("mouseover", function() { 
+  clearTimeout(dropdownMenuTimer);
+});
 
 
 function footerMessage(message) {

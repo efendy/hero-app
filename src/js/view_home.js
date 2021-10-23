@@ -64,15 +64,6 @@ function home_ReloadPaymentMethodSelection(paymentMethodMap) {
   $('#dropdown-home-payment-method').selectpicker('refresh');
 }
 
-// HACK UIUX home dropdown multiselect
-$('#dropdown-home-payment-method').selectpicker();
-$('.dropdown').on("click", function() { 
-  if ($(this).children('#dropdown-home-payment-method')) {
-    $(this).children('.dropdown-menu').toggle();
-    $(this).children('.dropdown-menu').children('.inner').children('.dropdown-menu').toggle();
-  }
-});
-
 /* FILTER - BUTTON */
 document.getElementById("btn-home-filter").onclick = function() {
   console.log("click!",this);

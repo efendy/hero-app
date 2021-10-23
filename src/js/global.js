@@ -18,3 +18,17 @@ function reloadPaymentMethodList(results) {
   process_ReloadPaymentMethodSelection(paymentMethodMap);
 }
 
+
+// HACK UIUX home dropdown multiselect
+$('#dropdown-home-payment-method').selectpicker();
+$('.dropdown').on("click", function() { 
+  if ($(this).children('#dropdown-home-payment-method')) {
+    $(this).children('.dropdown-menu').toggle();
+    $(this).children('.dropdown-menu').children('.inner').children('.dropdown-menu').toggle();
+  }
+});
+
+
+function footerMessage(message) {
+  $("#footer-message").text = message;
+}

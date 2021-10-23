@@ -55,4 +55,25 @@ class ProcessStorage {
   setInitCopy(value) {
     localStorage.setItem('process-init-start-copy', value);
   }
+  saveAutoCopySettings(paymentMethods, nominalCondition, nominalValue, billPerDay, billPattern) {
+    localStorage.setItem('process-auto-copy-payment-method', paymentMethods);
+    localStorage.setItem('process-auto-copy-nominal-condition', nominalCondition);
+    localStorage.setItem('process-auto-copy-nominal-value', nominalValue);
+    localStorage.setItem('process-auto-copy-bill-per-day', billPerDay);
+    localStorage.setItem('process-auto-copy-bill-pattern', billPattern);
+  }
+  getAutoCopySettings() {
+    let paymentMethods = localStorage.getItem('process-auto-copy-payment-method');
+    let nominalCondition = localStorage.getItem('process-auto-copy-nominal-condition');
+    let nominalValue = localStorage.getItem('process-auto-copy-nominal-value');
+    let billPerDay = localStorage.getItem('process-auto-copy-bill-per-day');
+    let billPattern = localStorage.getItem('process-auto-copy-bill-pattern');
+    return {
+      paymentMethods: paymentMethods?paymentMethods:[],
+      nominalCondition: nominalCondition?nominalCondition:"=",
+      nominalValue: nominalValue?nominalValue:0,
+      billPerDay: billPerDay?billPerDay:0,
+      billPattern: billPattern?billPattern:"all"
+    }
+  }
 }

@@ -73,6 +73,31 @@ class ProcessStorage {
   }
 }
 
+class InitStorage {
+  constructor() {
+  }
+  isConfigured() {
+    return (
+      typeof localStorage.getItem('application-admin-code') !== 'undefined' && 
+      localStorage.getItem('application-admin-code') != '' &&
+      typeof localStorage.getItem('application-user-code') !== 'undefined' &&
+      localStorage.getItem('application-user-code') != ''
+    );
+  }
+  setPasscode(adminPass, userPass) {
+    localStorage.setItem('application-admin-code', adminPass);
+    localStorage.setItem('application-user-code', userPass);
+  }
+  isAdminPasscode(value) {
+    return (localStorage.getItem('application-admin-code') == value);
+  }
+  isUserPasscode(value) {
+    return (localStorage.getItem('application-user-code') == value);
+  }
+}
+
 var masterStorage = new DbStorage("master");
 var sourceStorage = new DbStorage("source");
 var destinationStorage = new DbStorage("destination");
+
+var initStorage = new InitStorage();

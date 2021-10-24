@@ -1,4 +1,4 @@
-console.log('view_home.js is READY');
+console.log('view_home.js is LOADED');
 
 var home = {
   search: function() {
@@ -74,7 +74,7 @@ document.getElementById("btn-home-filter").onclick = function() {
 
   //SELECT * FROM `table` 
   // WHERE date_column >= '2014-01-01' AND date_column <= '2015-01-01' AND payment_method IN (,);
-  let queryStatement = "SELECT * FROM `table`";
+  let queryStatement = "SELECT * FROM `t_sales`";
   let whereStatement = [];
   if (dateStart) {
     whereStatement.push("date_column >= '"+dateStart+"'");

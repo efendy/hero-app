@@ -8,7 +8,7 @@ var loading = {
   }
 }
 
-function reloadPaymentMethodList(results) {
+function global_ReloadPaymentMethodList(results) {
   let paymentMethodMap = new Map();
   $.each(results, function(index, object) {
     paymentMethodMap.set(object.paymentMethodID,object.paymentMethodName);
@@ -18,6 +18,9 @@ function reloadPaymentMethodList(results) {
   process_ReloadPaymentMethodSelection(paymentMethodMap);
 }
 
+function global_FooterMessage(message) {
+  $("#footer-message").text = message;
+}
 
 // HACK UIUX home dropdown multiselect
 $('#dropdown-home-payment-method').selectpicker();
@@ -38,8 +41,3 @@ $('.dropdown-menu').on("mouseout", function() {
 $('.dropdown-menu').on("mouseover", function() { 
   clearTimeout(dropdownMenuTimer);
 });
-
-
-function footerMessage(message) {
-  $("#footer-message").text = message;
-}

@@ -1,12 +1,11 @@
+console.log('storage.js is LOADED');
 const localStorage = require('electron-localStorage');
-console.log('LOADED storage.js');
 
 class DbStorage {
   constructor(target) {
     this.target = target;
   }
   host() {
-    console.log(localStorage);
     return localStorage.getItem(this.target+'-host');
   }
   port() {
@@ -35,10 +34,6 @@ class DbStorage {
     return true;
   }
 }
-
-var masterStorage = new DbStorage("master");
-var sourceStorage = new DbStorage("source");
-var destinationStorage = new DbStorage("destination");
 
 class ProcessStorage {
   constructor() {
@@ -77,3 +72,7 @@ class ProcessStorage {
     }
   }
 }
+
+var masterStorage = new DbStorage("master");
+var sourceStorage = new DbStorage("source");
+var destinationStorage = new DbStorage("destination");

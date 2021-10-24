@@ -1,13 +1,17 @@
-console.log('view_settings.js is READY');
+console.log('view_settings.js is LOADED');
 
-// init
 const targetStorages = new Map([
   ["master", masterStorage],
   ["source", sourceStorage],
   ["destination", destinationStorage]
 ]);
-cancelSettings()
 
+// INITIALIZE
+function view_settings_Init() {
+  cancelSettings()
+}
+
+// EVENTS
 document.getElementById('btn-settings-master-pass').onclick = function() { toggleShowPassword('master') }
 document.getElementById('btn-settings-source-pass').onclick = function() { toggleShowPassword('source') }
 document.getElementById('btn-settings-destination-pass').onclick = function() { toggleShowPassword('destination') }
@@ -39,7 +43,6 @@ function toggleShowPassword(target) {
 }
 
 function saveSettings() {
-  console.log('call saveSettings');
   for (const [target, storage] of targetStorages.entries()) {
     let inSettingsHost = document.getElementById('in-settings-'+target+'-host');
     let inSettingsPort = document.getElementById('in-settings-'+target+'-port');
@@ -76,7 +79,6 @@ function saveSettings() {
 }
 
 function cancelSettings() {
-  console.log('call cancelSettings');
   for (const [target, storage] of targetStorages.entries()) {
     let inSettingsHost = document.getElementById('in-settings-'+target+'-host');
     let inSettingsPort = document.getElementById('in-settings-'+target+'-port');

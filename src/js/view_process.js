@@ -1,4 +1,4 @@
-console.log('view_process.js is READY');
+console.log('view_process.js is LOADED');
 
 var appProcess = new ProcessStorage();
 
@@ -18,23 +18,23 @@ var selectCopyPaymentMethod = $("#select-process-copy-payment-method");
 var btnCopySave = $('#btn-process-copy-save');
 
 // INITIALIZE
-if (appProcess.getInitSync()) {
-  checkInitSync.attr('checked', true);
-  btnSyncStart.hide();
-  btnSyncStop.show();
-} else {
-  btnSyncStop.hide();
+function view_process_Init() {
+  if (appProcess.getInitSync()) {
+    checkInitSync.attr('checked', true);
+    btnSyncStart.hide();
+    btnSyncStop.show();
+  } else {
+    btnSyncStop.hide();
+  }
+  if (appProcess.getInitCopy()) {
+    checkInitCopy.attr('checked', true);
+    btnCopyStart.hide();
+    btnCopyStop.show();
+  } else {
+    btnCopyStop.hide();
+  }
+  process_ReloadAutoCopySettings();
 }
-if (appProcess.getInitCopy()) {
-  checkInitCopy.attr('checked', true);
-  btnCopyStart.hide();
-  btnCopyStop.show();
-} else {
-  btnCopyStop.hide();
-}
-
-console.log("autoCopySettings",appProcess.getAutoCopySettings());
-process_ReloadAutoCopySettings();
 
 // EVENTS
 checkInitSync.on("change", function() {

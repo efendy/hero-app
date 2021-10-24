@@ -1,3 +1,5 @@
+console.log('database.js is LOADED');
+
 const mysql = require('mysql');
 
 class Database {
@@ -76,38 +78,46 @@ var masterDb = new Database(masterStorage);
 var sourceDb = new Database(sourceStorage);
 var destinationDb = new Database(destinationStorage);
 
-// masterDb.createTable('user_tmp', function (error, results, fields) {
-//   if (error) {
-//     alert("Error: \n" + error.message);
-//   }
-//   if (results) {
-//     console.log("createTable()","RESULTS",results);
-//     masterDb.insertUser('Henny','Susanti', function (error, results, fields) {
-//       if (error) {
-//         alert("Error: \n" + error.message);
-//       }
-//       if (fields) {
-//         console.log("insertUser()","FIELDS",fields);
-//       }
-//       if (results) {
-//         console.log("insertUser()","RESULTS",results);
-//         masterDb.selectUser(function (error, results, fields) {
-//           if (error) {
-//             alert("Error: \n" + error.message);
-//           }
-//           if (fields) {
-//             console.log("selectUser()","FIELDS",fields);
-//           }
-//           if (results) {
-//             console.log("selectUser()","RESULTS",results);
-//           }
-//         });
-//       }
-//     });
-//   }
-// });
+// INITIALIZE
+function database_Init() {
+  database_SyncPaymentMethod();
+  database_CreateTableSales(sourceDb);
+  database_CreateTableSales(destinationDb);
+}
 
-function syncPaymentMethod() {
+// FUNCTIONS
+function database_CreateTableSales(db) {
+  let rawQuery = `
+  CREATE TABLE IF NOT EXISTS t_sales (
+    Sales_No varchar(20) NOT NULL,
+    Receipt_No varchar(20) NOT NULL,
+    Tanggal_Trx datetime NOT NULL,
+    Payment_Method varchar(50),
+    Subtotal decimal(20,4) DEFAULT 0,
+    Service_Charge decimal(20,4) DEFAULT 0,
+    Tax decimal(20,4) DEFAULT 0,
+    Amount decimal(21,4) DEFAULT 0,
+    SaleDate date,
+    OutletCode varchar(20),
+    OutletName varchar(50),
+    ShopID int(11),
+    PRIMARY KEY (Sales_No)
+  )
+  `;
+  db.query(rawQuery, function (error, results, fields) {
+    if (error) {
+      alert("Error: \n" + error.message);
+    }
+    if (fields) {
+      console.log("loadPaymentMethod()","FIELDS",fields);
+    }
+    if (results) {
+      console.log("loadPaymentMethod()","RESULTS",results);
+    }
+  });
+}
+
+function database_SyncPaymentMethod() {
   masterDb.query('SELECT paymentMethodID,paymentMethodName FROM `ms_paymentmethod`', function (error, results, fields) {
     if (error) {
       alert("Error: \n" + error.message);
@@ -117,10 +127,8 @@ function syncPaymentMethod() {
     }
     if (results) {
       console.log("loadPaymentMethod()","RESULTS",results);
-      reloadPaymentMethodList(results);
+      global_ReloadPaymentMethodList(results);
     }
   });
 }
 
-/* INITIALIZE */
-syncPaymentMethod();

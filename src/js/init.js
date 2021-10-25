@@ -36,7 +36,7 @@ btnInitContinue.on('click', function() {
         isAdmin = true;
         database_Init();
         view_process_Init();
-        view_settings_Init();
+        view_connections_Init();
         $('.section-header').show();
         $('.section-main').show();
         $('#preload').hide();
@@ -44,13 +44,13 @@ btnInitContinue.on('click', function() {
         isAdmin = false;
         database_Init();
         view_process_Init();
-        view_settings_Init();
+        view_connections_Init();
         $('.section-header').show();
         $('.section-main').show();
         $('#preload').hide();
         $('#headerTabs button[id="home-tab"]').tab('show');
         $('#headerTabs button[id="process-tab"]').hide();
-        $('#headerTabs button[id="settings-tab"]').hide();
+        $('#headerTabs button[id="connections-tab"]').hide();
       } else {
         alert("Wrong passcode!");
       }
@@ -64,7 +64,7 @@ btnInitContinue.on('click', function() {
       $('.section-header').show();
       $('.section-main').show();
       $('#preload').hide();
-      $('#headerTabs button[id="settings-tab"]').tab('show');
+      $('#headerTabs button[id="connections-tab"]').tab('show');
     }
   }
   
@@ -75,7 +75,7 @@ btnInitContinue.on('click', function() {
   $('#preload').hide();
   $('#headerTabs button[id="home-tab"]').tab('show');
   $('#headerTabs button[id="process-tab"]').hide();
-  $('#headerTabs button[id="settings-tab"]').hide();
+  $('#headerTabs button[id="connections-tab"]').hide();
   */
 })
 

@@ -23,9 +23,10 @@ const createWindow = () => {
     }
   });
   top.win.loadFile(path.join(__dirname, 'index.html'));
-  // top.win.webContents.openDevTools();
+  top.win.webContents.openDevTools();
   top.win.on("close", ev => {
-    //console.log(ev);
+    console.log(ev.sender);
+    ev.sender.webContents.sendInputEvent({type: 'keyDown', keyCode: 'HIDEWINDOW'});
     ev.sender.hide();
     ev.preventDefault(); // prevent quit process
   });
@@ -44,6 +45,9 @@ const createWindow = () => {
     {role: "quit"},
   ]);
   top.tray.setContextMenu(menu);
+  top.tray.on('clicked', function() {
+    top.tray.popContextMenu();
+ })
 };
 
 app.on('ready', createWindow);

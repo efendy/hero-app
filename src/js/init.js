@@ -12,19 +12,10 @@ var viewInitNew = $('#init-view-entry-new');
 var viewInitExist = $('#init-view-entry-exist');
 
 // INITIALIZE
-$('.section-header').hide();
-$('.section-main').hide();
+initView();
 inputInitAdminCode.pincodeInput({inputs:6});
 inputInitUserCode.pincodeInput({inputs:6});
 inputInitAnyCode.pincodeInput({inputs:6});
-
-if (isConfigured) {
-  viewInitNew.hide();
-  viewInitExist.show();
-} else {
-  viewInitNew.show();
-  viewInitExist.hide();
-}
 
 // EVENTS
 btnInitContinue.on('click', function() {
@@ -40,6 +31,10 @@ btnInitContinue.on('click', function() {
         $('.section-header').show();
         $('.section-main').show();
         $('#preload').hide();
+        $('#headerTabs button[id="home-tab"]').tab('show');
+        $('#headerTabs button[id="process-tab"]').show();
+        $('#headerTabs button[id="connections-tab"]').show();
+        $('#headerTabs button[id="settings-tab"]').show();
       } else if (initStorage.isUserPasscode(inputInitAnyCode.val())) { // USER
         isAdmin = false;
         database_Init();
@@ -66,6 +61,9 @@ btnInitContinue.on('click', function() {
       $('.section-main').show();
       $('#preload').hide();
       $('#headerTabs button[id="connections-tab"]').tab('show');
+      $('#headerTabs button[id="process-tab"]').show();
+      $('#headerTabs button[id="connections-tab"]').show();
+      $('#headerTabs button[id="settings-tab"]').show();
     }
   }
   
@@ -80,4 +78,32 @@ btnInitContinue.on('click', function() {
   */
 })
 
+window.onkeydown = function(event) {
+  // console.log(event);
+  if (event.isTrusted && event.key == "" && event.code == "" ) {
+    console.log("window.onkeydown reset page")
+    initView();
+  }
+}
+
+function initView() {
+  $('.section-header').hide();
+  $('.section-main').hide();
+
+  if (isConfigured) {
+    viewInitNew.hide();
+    viewInitExist.show();
+  } else {
+    viewInitNew.show();
+    viewInitExist.hide();
+  }
+
+  $('#preload').show();
+
+  inputInitAdminCode.val("");
+  inputInitUserCode.val("");
+  inputInitAnyCode.val("");
+
+  $(".pincode-input-text").val("");
+}
 /* --- UI Handling END ------ */

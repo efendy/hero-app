@@ -51,6 +51,7 @@ btnInitContinue.on('click', function() {
         $('#headerTabs button[id="home-tab"]').tab('show');
         $('#headerTabs button[id="process-tab"]').hide();
         $('#headerTabs button[id="connections-tab"]').hide();
+        $('#headerTabs button[id="settings-tab"]').hide();
       } else {
         alert("Wrong passcode!");
       }

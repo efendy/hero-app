@@ -33,6 +33,13 @@ class DbStorage {
     }
     return true;
   }
+  reset() {
+    localStorage.removeItem(this.target+"-host");
+    localStorage.removeItem(this.target+"-port");
+    localStorage.removeItem(this.target+"-user");
+    localStorage.removeItem(this.target+"-pass");
+    localStorage.removeItem(this.target+"-database");
+  }
 }
 
 class ProcessStorage {
@@ -71,6 +78,13 @@ class ProcessStorage {
       billPattern: billPattern?billPattern:"all"
     }
   }
+  resetAutoCopySettings() {
+    localStorage.removeItem('process-auto-copy-payment-method');
+    localStorage.removeItem('process-auto-copy-nominal-condition');
+    localStorage.removeItem('process-auto-copy-nominal-value');
+    localStorage.removeItem('process-auto-copy-bill-per-day');
+    localStorage.removeItem('process-auto-copy-bill-pattern');
+  }
 }
 
 class InitStorage {
@@ -93,6 +107,10 @@ class InitStorage {
   }
   isUserPasscode(value) {
     return (localStorage.getItem('application-user-code') == value);
+  }
+  reset() {
+    localStorage.removeItem('application-admin-code');
+    localStorage.removeItem('application-user-code');
   }
 }
 

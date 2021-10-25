@@ -1,5 +1,7 @@
-const { app, screen, BrowserWindow } = require('electron');
+const { app, screen, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
+
+let top = {};
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -8,35 +10,48 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    show: false,
+  top.win = new BrowserWindow({
+    // show: false,
+    minimizable: false,
     width: screen.getPrimaryDisplay().size.width - 100,
     height: screen.getPrimaryDisplay().size.height - 100,
-    icon: __dirname + '/index.png',
+    // icon: iconPath,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      webSecurity: true,
     }
   });
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.webContents.openDevTools();
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
+  top.win.loadFile(path.join(__dirname, 'index.html'));
+  // top.win.webContents.openDevTools();
+  top.win.on("close", ev => {
+    //console.log(ev);
+    ev.sender.hide();
+    ev.preventDefault(); // prevent quit process
   });
+
+  top.tray = new Tray(path.join(__dirname, 'index-xs.png'));
+  // top.tray = new Tray(nativeImage.createEmpty());
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Show', click: function () {
+        top.win.show();
+      }
+    },
+    {
+      type: 'separator',
+    },
+    {role: "quit"},
+  ]);
+  top.tray.setContextMenu(menu);
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+app.on("before-quit", ev => {
+  top.win.removeAllListeners("close");
+  // release windows
+  top = null;
 });
 
 app.on('activate', () => {

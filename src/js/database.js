@@ -20,35 +20,6 @@ class Database {
     return false;
   }
 
-  createTable(tableName, callback) {
-    let conn = this.connection()
-    if (conn) {
-      conn.query(
-        'CREATE TABLE IF NOT EXISTS `'+tableName+'` (' +
-        'id MEDIUMINT NOT NULL AUTO_INCREMENT,' +
-        'first_name varchar(255) NOT NULL,' +
-        'last_name varchar(255),' +
-        'PRIMARY KEY (id)' +
-        ')', 
-        callback
-      );
-      conn.end();
-    }
-  }
-
-  insertUser(firstName, lastName, callback) {
-    let conn = this.connection()
-    if (conn) {
-      conn.query(
-        'INSERT INTO `user_tmp` (first_name, last_name) VALUES' +
-        '("'+firstName+'","'+lastName+'")' +
-        '',
-        callback
-      );
-      conn.end();
-    }
-  }
-
   query(rawQuery, callback) {
     let conn = this.connection()
     if (conn) {
@@ -60,19 +31,6 @@ class Database {
     }
   }
 }
-
-// Callback Template
-// function (error, results, fields) {
-//   if (error) {
-//     alert("Error: \n" + error.message);
-//   }
-//   if (results) {
-//     console.log("dbCallback()","RESULTS",results);
-//   }
-//   if (fields) {
-//     console.log("dbCallback()","FIELDS",fields);
-//   }
-// }
 
 var masterDb = new Database(masterStorage);
 var sourceDb = new Database(sourceStorage);
@@ -87,11 +45,13 @@ function database_Init() {
 
 // FUNCTIONS
 function database_CreateTableSales(db) {
+  let tableName = "t_sales";
   let rawQuery = `
-  CREATE TABLE IF NOT EXISTS t_sales (
+  CREATE TABLE IF NOT EXISTS ${tableName} (
     Sales_No varchar(20) NOT NULL,
-    Receipt_No varchar(20) NOT NULL,
-    Tanggal_Trx datetime NOT NULL,
+    Receipt_No varchar(20),
+    Tanggal_Trx varchar(30) NOT NULL,
+    salesDateOut datetime,
     Payment_Method varchar(50),
     Subtotal decimal(20,4) DEFAULT 0,
     Service_Charge decimal(20,4) DEFAULT 0,
@@ -106,29 +66,154 @@ function database_CreateTableSales(db) {
   `;
   db.query(rawQuery, function (error, results, fields) {
     if (error) {
-      alert("Error: \n" + error.message);
+      alert("CreateTable "+tableName+" Error:\n" + error.message);
     }
     if (fields) {
-      console.log("loadPaymentMethod()","FIELDS",fields);
+      console.log("database_CreateTableSales()","FIELDS",fields);
     }
     if (results) {
-      console.log("loadPaymentMethod()","RESULTS",results);
+      console.log("database_CreateTableSales()","RESULTS",results);
     }
   });
 }
 
+//
+// SYNC PAYMENT METHOD FROM MASTER ----
+//
 function database_SyncPaymentMethod() {
   masterDb.query('SELECT paymentMethodID,paymentMethodName FROM `ms_paymentmethod`', function (error, results, fields) {
     if (error) {
-      alert("Error: \n" + error.message);
+      alert("SyncPaymentMethod Error:\n" + error.message);
     }
     if (fields) {
-      console.log("loadPaymentMethod()","FIELDS",fields);
+      // console.log("database_SyncPaymentMethod()","FIELDS",fields);
     }
     if (results) {
-      console.log("loadPaymentMethod()","RESULTS",results);
+      console.log("database_SyncPaymentMethod()","RESULTS",results);
       global_ReloadPaymentMethodList(results);
     }
   });
 }
+
+//
+// SYNC DATA FROM MASTER TO SOURCE ----
+//
+function database_InitSyncDataFromMaster() {
+  // Check last salesDateOut / Tanggal_Trx from sourceDb.t_sales
+  sourceDb.query('SELECT salesDateOut FROM t_sales WHERE salesDateOut=(SELECT MAX(salesDateOut) FROM t_sales)', function (error, results, fields) {
+    if (error) {
+      alert("SyncDataMaster Connecting to Source\nError:\n" + error.message);
+    }
+    if (fields) {
+      // console.log("database_InitSyncDataFromMaster() sourceDb","FIELDS",fields);
+    }
+    if (results) {
+      console.log("database_InitSyncDataFromMaster() sourceDb","RESULTS",results);
+      let whereAfterSalesDateOut = "";
+      if (results.length > 0) {
+        // Get data from last salesDateOut / Tanggal_Trx
+        console.log(results[0].Tanggal_Trx);
+        // whereAfterSalesDateOut = `AND a.salesDateOut >= ${results[0].Tanggal_Trx}`;
+      } else {
+        // Get data from the beginning
+      }
+      database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut,0);
+    }
+  });
+}
+
+const RANGE = 500;
+
+function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
+  masterDb.query(`
+    SELECT 
+      coalesce(a.billNum,a.salesNum) AS Sales_No,
+      concat(date_format(a.salesDateOut,'%m/%d/%Y'),' ',date_format(a.salesDateOut,'%T')) AS Tanggal_Trx,
+      concat(date_format(a.salesDateOut,'%Y-%m-%d'),' ',date_format(a.salesDateOut,'%T')) AS salesDateOut,
+      d.paymentMethodName AS Payment_Method,
+      a.subtotal AS Subtotal,
+      a.otherTaxTotal AS Service_Charge,
+      a.vatTotal AS Tax,
+      (a.grandTotal - a.roundingTotal) AS Amount,
+      concat(date_format(a.salesDate,'%Y-%m-%d'),' ',date_format(a.salesDate,'%T')) AS SaleDate,
+      b.branchCode AS OutletCode,
+      b.branchName AS OutletName,
+      a.branchID AS ShopID 
+    FROM 
+      (((fnb_pos.tr_saleshead a JOIN fnb_pos.ms_branch b ON(a.branchID = b.branchID)) 
+        JOIN fnb_pos.tr_salespayment c ON(a.salesNum = c.salesNum)) 
+        JOIN fnb_pos.ms_paymentmethod d ON(c.paymentMethodID = d.paymentMethodID))
+    WHERE
+      a.branchID = 9 ${whereAfterSalesDateOut}
+    ORDER BY 
+      a.salesDateOut
+    LIMIT
+      ${offset}, ${RANGE}
+  `, function (error, results, fields) {
+    if (error) {
+      alert("SyncDataMaster Connecting to Master\nError:\n" + error.message);
+    }
+    if (fields) {
+      // console.log("database_ExecuteSyncDataFromMaster() masterDb","FIELDS",fields);
+    }
+    if (results) {
+      console.log("database_ExecuteSyncDataFromMaster() masterDb","RESULTS",results);
+      if (results.length > 0) {
+        let insertStatement = `
+          INSERT INTO t_sales (
+            Sales_No,
+            Receipt_No,
+            Tanggal_Trx,
+            salesDateOut,
+            Payment_Method,
+            Subtotal,
+            Service_Charge,
+            Tax,
+            Amount,
+            SaleDate,
+            OutletCode,
+            OutletName,
+            ShopID
+          ) VALUES `
+        let valueStatement = []
+        for (i = 0; i < results.length; i++) {
+          valueStatement.push(`(
+            '${results[i].Sales_No}',
+            '',
+            '${results[i].Tanggal_Trx}',
+            '${results[i].salesDateOut}',
+            '${results[i].Payment_Method}',
+            '${results[i].Subtotal}',
+            '${results[i].Service_Charge}',
+            '${results[i].Tax}',
+            '${results[i].Amount}',
+            '${results[i].SaleDate}',
+            '${results[i].OutletCode}',
+            '${results[i].OutletName}',
+            '${results[i].ShopID}'
+          )`);
+        }
+        insertStatement += valueStatement.join(",");
+        // console.log(insertStatement);
+        sourceDb.query(insertStatement, function(error, results, fields) {
+          if (error) {
+            alert("SyncDataMaster Connecting to Source\nError:\n" + error.message);
+          }
+          if (fields) {
+            // console.log("database_ExecuteSyncDataFromMaster() sourceDb","FIELDS",fields);
+          }
+          if (results) {
+            database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset+RANGE);
+          }
+        });
+      } else {
+        console.log("database_ExecuteSyncDataFromMaster() masterDb COMPLETE");
+      }
+    }
+  });
+}
+
+//
+// COPY DATA FROM SOURCE TO MASTER ----
+//
 

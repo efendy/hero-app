@@ -116,7 +116,7 @@ function testConnection(prefix) {
   connection.connect(function(err) {
     loading.hide();
     if (err) {
-      alert("Connection Failed: \n" + err.message);
+      alert("Connection Failed ("+prefix+"): \n" + err.message);
     } else {
       alert("Connection Success");
     }

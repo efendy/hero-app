@@ -35,10 +35,11 @@ var home = {
 
 var btnHomeSearchFilter = $("#btn-home-search-filter");
 var btnHomeSearchClear = $("#btn-home-search-clear");
-var btnHomeTableSourceReload = $("#btn-home-table-source-reload");
+var btnHomeSearchToday = $("#btn-home-search-today");
+// var btnHomeTableSourceReload = $("#btn-home-table-source-reload");
 var btnHomeTableSourceExport = $("#btn-home-table-source-export");
 var btnHomeTableSourceCopy = $("#btn-home-table-source-copy");
-var btnHomeTableDestinationReload = $("#btn-home-table-destination-reload");
+// var btnHomeTableDestinationReload = $("#btn-home-table-destination-reload");
 var btnHomeTableDestinationExport = $("#btn-home-table-destination-export");
 var btnHomeTableDestinationDelete = $("#btn-home-table-destination-delete");
 var btnHomeTableDestinationAction = $("#btn-home-table-destination-action");
@@ -49,13 +50,15 @@ var tableHomeDestination = $("#table-home-destination")
 
 
 /* FILTER - DATE RANGE */
-var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+var today = new Date();
+console.log(today);
 $('#datepicker-home-start').datepicker({
   uiLibrary: 'bootstrap4',
   format: 'yyyy-mm-dd',
   locale: 'en-us',
   showOtherMonths: false,
-  maxDate: today
+  maxDate: today,
+  value: global_GetTodayDate(),
 });
 $('#datepicker-home-end').datepicker({
   uiLibrary: 'bootstrap4',
@@ -64,12 +67,12 @@ $('#datepicker-home-end').datepicker({
   minDate: function () {
       return $('#datepicker-home-start').val();
   },
-  maxDate: today
+  maxDate: today,
+  value: global_GetTodayDate(),
 });
 
 /* FILTER - PAYMENT METHOD */
 function home_ReloadPaymentMethodSelection(paymentMethodMap) {
-  console.log("home_ReloadPaymentMethodSelection",paymentMethodMap);
   $('#dropdown-home-payment-method').empty();
   paymentMethodMap.forEach(function(value, key) {
     var $option = $("<option/>", {
@@ -81,32 +84,55 @@ function home_ReloadPaymentMethodSelection(paymentMethodMap) {
   $('#dropdown-home-payment-method').selectpicker('refresh');
 }
 
+//
 // EVENTS
 btnHomeSearchFilter.on("click", function() {
-  console.log("click!",this);
   home_ReloadSourceTable();
   home_ReloadDestinationTable();
 });
 btnHomeSearchClear.on("click", function() {
-
+  $("#datepicker-home-start").val("");
+  $("#datepicker-home-end").val("");
+  $("#dropdown-home-payment-method").val("");
+  $('#dropdown-home-payment-method').selectpicker('refresh');
 });
-btnHomeTableSourceReload.on("click", function() {
-
+btnHomeSearchToday.on("click", function() {
+  $("#datepicker-home-start").val(global_GetTodayDate());
+  $("#datepicker-home-end").val(global_GetTodayDate());
+  home_ReloadSourceTable();
+  home_ReloadDestinationTable();
 });
+// btnHomeTableSourceReload.on("click", function() {
+
+// });
 btnHomeTableSourceExport.on("click", function() {
 
 });
 btnHomeTableSourceCopy.on("click", function() {
-
+  let items = document.getElementsByClassName("home-select-source-item");
+  let selectedIds = []
+  for (var i=0; i < items.length; i++) {
+    if (items[i].checked) {
+      selectedIds.push(items[i].value)
+    }
+  }
+  console.log(selectedIds)
 });
-btnHomeTableDestinationReload.on("click", function() {
+// btnHomeTableDestinationReload.on("click", function() {
 
-});
+// });
 btnHomeTableDestinationExport.on("click", function() {
 
 });
 btnHomeTableDestinationDelete.on("click", function() {
-
+  let items = document.getElementsByClassName("home-select-destination-item");
+  let selectedIds = []
+  for (var i=0; i < items.length; i++) {
+    if (items[i].checked) {
+      selectedIds.push(items[i].value)
+    }
+  }
+  console.log(selectedIds)
 });
 btnHomeTableDestinationAction.on("click", function() {
   // lock,unlock,reset bill number

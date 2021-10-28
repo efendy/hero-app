@@ -8,6 +8,15 @@ var loading = {
   }
 }
 
+function global_GetTodayDate() {
+  var today = new Date();
+  let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(today);
+  let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(today);
+  let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(today);
+  console.log(`${ye}-${mo}-${da}`);
+  return `${ye}-${mo}-${da}`;
+}
+
 function global_ReloadPaymentMethodList(results) {
   let paymentMethodMap = new Map();
   $.each(results, function(index, object) {

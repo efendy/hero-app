@@ -77,6 +77,17 @@ function database_CreateTableSales(db) {
   });
 }
 
+function database_deleteBySalesNumbers(targetDb, salesNumbers, callback) {
+  // DELETE FROM `pos_src`.`t_sales` WHERE `Sales_No`='ETK202110090006';
+}
+
+function database_deleteSourceBySalesNumbers(salesNumbers, callback) {
+  database_deleteBySalesNumbers(sourceDb, salesNumbers, callback);
+}
+function database_deleteDestinationBySalesNumbers(salesNumbers, callback) {
+  database_deleteBySalesNumbers(destinationDb, salesNumbers, callback);
+}
+
 //
 // SYNC PAYMENT METHOD FROM MASTER ----
 //
@@ -100,7 +111,10 @@ function database_SyncPaymentMethod() {
 //
 function database_InitSyncDataFromMaster() {
   // Check last salesDateOut / Tanggal_Trx from sourceDb.t_sales
-  sourceDb.query('SELECT salesDateOut FROM t_sales WHERE salesDateOut=(SELECT MAX(salesDateOut) FROM t_sales)', function (error, results, fields) {
+  sourceDb.query(`
+    SELECT concat(date_format(salesDateOut,'%Y-%m-%d'),' ',date_format(salesDateOut,'%T')) AS Tanggal_Trx 
+    FROM t_sales WHERE salesDateOut=(SELECT MAX(salesDateOut) FROM t_sales)
+  `, function (error, results, fields) {
     if (error) {
       alert("SyncDataMaster Connecting to Source\nError:\n" + error.message);
     }
@@ -113,9 +127,7 @@ function database_InitSyncDataFromMaster() {
       if (results.length > 0) {
         // Get data from last salesDateOut / Tanggal_Trx
         console.log(results[0].Tanggal_Trx);
-        // whereAfterSalesDateOut = `AND a.salesDateOut >= ${results[0].Tanggal_Trx}`;
-      } else {
-        // Get data from the beginning
+        whereAfterSalesDateOut = `AND a.salesDateOut > '${results[0].Tanggal_Trx}'`;
       }
       database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut,0);
     }
@@ -128,7 +140,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
   masterDb.query(`
     SELECT 
       coalesce(a.billNum,a.salesNum) AS Sales_No,
-      concat(date_format(a.salesDateOut,'%m/%d/%Y'),' ',date_format(a.salesDateOut,'%T')) AS Tanggal_Trx,
+      concat(date_format(a.salesDateOut,'%d/%m/%Y'),' ',date_format(a.salesDateOut,'%T')) AS Tanggal_Trx,
       concat(date_format(a.salesDateOut,'%Y-%m-%d'),' ',date_format(a.salesDateOut,'%T')) AS salesDateOut,
       d.paymentMethodName AS Payment_Method,
       a.subtotal AS Subtotal,
@@ -207,6 +219,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
           }
         });
       } else {
+        global_FooterMessage("Completed Sync Data from Master!");
         console.log("database_ExecuteSyncDataFromMaster() masterDb COMPLETE");
       }
     }

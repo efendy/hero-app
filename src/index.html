@@ -68,7 +68,8 @@
                 </div>
               </div>
               <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-2">
-                <button id="btn-home-filter" class="btn btn-primary">Filter</button>
+                <button id="btn-home-search-filter" class="btn btn-primary">Filter</button>
+                <button id="btn-home-search-clear" class="btn btn-secondary">Clear</button>
               </div>
             </div>
             <div class="col-md-6">
@@ -80,9 +81,8 @@
                 <table class="table">
                   <thead class="bg-secondary thead-hero">
                     <tr>
-                      <th scope="col" style="min-width: 1rem;"><input class="form-check-input select-source-all" type="checkbox"></th>
+                      <th scope="col" style="min-width: 1rem;"><input class="form-check-input home-select-source-all" type="checkbox"></th>
                       <th scope="col" style="min-width: 6rem;">Code</th>
-                      <th scope="col" style="min-width: 6rem;">Bill Number</th>
                       <th scope="col" style="min-width: 6rem;">Date</th>
                       <th scope="col" style="min-width: 6rem;">Time</th>
                       <th scope="col" style="min-width: 6rem;">Payment</th>
@@ -90,25 +90,25 @@
                       <th scope="col" style="min-width: 6rem;">Grand Total</th>
                     </tr>
                   </thead>
-                  <tbody class="tbody-hero">
-                    <tr>
-                      <th scope="row"><input class="form-check-input select-source-item" type="checkbox"></th>
-                      <td>1</td>
+                  <tbody id="table-home-source" class="tbody-hero">
+                    <!-- <tr>
+                      <th scope="row"><input class="form-check-input home-select-source-item" type="checkbox" value="ETK202107310003"></th>
+                      <td>ETK202107310003</td>
                       <td>Mark</td>
                       <td>Otto</td>
                       <td>@mdo</td>
                       <td>@mdo</td>
                       <td>@mdo</td>
-                      <td>@mdo</td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
               <div class="pt-1 pb-4">
                 <strong></strong>
                 <div class="float-end">
-                  <button id="btn-home-source-copy" class="btn btn-secondary btn-sm">Export</button>
-                  <button id="btn-home-source-copy" class="btn btn-warning btn-sm">Copy</button>
+                  <!-- <button id="btn-home-table-source-reload" class="btn btn-secondary btn-sm">Reload</button> -->
+                  <button id="btn-home-table-source-export" class="btn btn-secondary btn-sm">Export</button>
+                  <button id="btn-home-table-source-copy" class="btn btn-warning btn-sm">Copy</button>
                 </div>
               </div>
             </div>
@@ -121,8 +121,9 @@
                 <table class="table">
                   <thead class="bg-secondary thead-hero">
                     <tr>
-                      <th scope="col" style="min-width: 1rem;"><input class="form-check-input select-destination-all" type="checkbox"></th>
+                      <th scope="col" style="min-width: 1rem;"><input class="form-check-input home-select-destination-all" type="checkbox"></th>
                       <th scope="col" style="min-width: 6rem;">Code</th>
+                      <th scope="col" style="min-width: 6rem;">Bill Number</th>
                       <th scope="col" style="min-width: 6rem;">Date</th>
                       <th scope="col" style="min-width: 6rem;">Time</th>
                       <th scope="col" style="min-width: 6rem;">Payment</th>
@@ -130,60 +131,25 @@
                       <th scope="col" style="min-width: 6rem;">Grand Total</th>
                     </tr>
                   </thead>
-                  <tbody class="tbody-hero">
-                    <tr>
-                      <th scope="row"><input class="form-check-input select-destination-item" type="checkbox"></th>
+                  <tbody id="table-home-destination" class="tbody-hero">
+                    <!-- <tr>
+                      <th scope="row"><input class="form-check-input home-select-destination-item" type="checkbox"></th>
                       <td>1</td>
                       <td>Mark</td>
                       <td>Otto</td>
                       <td>@mdo</td>
                       <td>@mdo</td>
                       <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><input class="form-check-input select-destination-item" type="checkbox"></th>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><input class="form-check-input select-destination-item" type="checkbox"></th>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><input class="form-check-input select-destination-item" type="checkbox"></th>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><input class="form-check-input select-destination-item" type="checkbox"></th>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
               <div class="pt-1 pb-4">
                 <strong></strong>
                 <div class="float-end">
-                  <button id="btn-home-source-copy" class="btn btn-secondary btn-sm">Export</button>
-                  <button id="btn-home-destination-delete" class="btn btn-warning btn-sm">Delete</button>
+                  <!-- <button id="btn-home-table-destination-reload" class="btn btn-secondary btn-sm">Reload</button> -->
+                  <button id="btn-home-table-destination-export" class="btn btn-secondary btn-sm">Export</button>
+                  <button id="btn-home-table-destination-delete" class="btn btn-warning btn-sm">Delete</button>
                 </div>
               </div>
             </div>
@@ -415,7 +381,7 @@
     </main>
     <footer class="section-footer fixed-bottom py-1 bg-light border-top">
       <div class="container-fluid">
-        <div id="footer-message"></div>
+        <span id="footer-message">..</span>
       </div>
     </footer>
     <!-- preload view -->

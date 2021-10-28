@@ -46,7 +46,7 @@ checkInitCopy.on("change", function() {
 btnSyncStart.on("click", function() {
   btnSyncStart.hide();
   btnSyncStop.show();
-  // database_InitSyncDataFromMaster();
+  database_InitSyncDataFromMaster();
 });
 btnSyncStop.on("click", function() {
   btnSyncStop.hide();

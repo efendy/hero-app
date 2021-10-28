@@ -72,11 +72,9 @@ main {
 }
 
 #hero-source-table, #hero-destination-table {
-  min-height: 400px;
+  min-height: 500px;
+  max-height: 500px;
 }
-
-
-
 
 .gj-icon {
   position: relative!important;

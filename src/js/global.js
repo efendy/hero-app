@@ -28,7 +28,7 @@ function global_ReloadPaymentMethodList(results) {
 }
 
 function global_FooterMessage(message) {
-  $("#footer-message").text = message;
+  $("#footer-message").text(message);
 }
 
 // HACK UIUX home dropdown multiselect

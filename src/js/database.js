@@ -69,7 +69,7 @@ function database_CreateTableSales(db) {
       alert("CreateTable "+tableName+" Error:\n" + error.message);
     }
     if (fields) {
-      console.log("database_CreateTableSales()","FIELDS",fields);
+      // console.log("database_CreateTableSales()","FIELDS",fields);
     }
     if (results) {
       console.log("database_CreateTableSales()","RESULTS",results);
@@ -122,7 +122,7 @@ function database_InitSyncDataFromMaster() {
       // console.log("database_InitSyncDataFromMaster() sourceDb","FIELDS",fields);
     }
     if (results) {
-      console.log("database_InitSyncDataFromMaster() sourceDb","RESULTS",results);
+      // console.log("database_InitSyncDataFromMaster() sourceDb","RESULTS",results);
       let whereAfterSalesDateOut = "";
       if (results.length > 0) {
         // Get data from last salesDateOut / Tanggal_Trx
@@ -134,7 +134,7 @@ function database_InitSyncDataFromMaster() {
   });
 }
 
-const RANGE = 500;
+const RANGE = 1000;
 
 function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
   masterDb.query(`
@@ -215,11 +215,11 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
             // console.log("database_ExecuteSyncDataFromMaster() sourceDb","FIELDS",fields);
           }
           if (results) {
-            database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset+RANGE);
+            setTimeout(database_ExecuteSyncDataFromMaster, RANGE, whereAfterSalesDateOut, offset+RANGE);
           }
         });
       } else {
-        global_FooterMessage("Completed Sync Data from Master!");
+        // global_FooterMessage("Completed Sync Data from Master!");
         console.log("database_ExecuteSyncDataFromMaster() masterDb COMPLETE");
       }
     }

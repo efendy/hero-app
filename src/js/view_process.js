@@ -6,6 +6,8 @@ function startBackgroundProcess() {
   console.log("call startBackgroundProcess()");
 }
 
+var BACKGROUND_PROCESS_DELAY = 2000;
+
 /* --- UI Handling START ---- */
 
 var checkInitSync = $("#in-process-init-startup-sync");
@@ -19,10 +21,13 @@ var btnCopySave = $('#btn-process-copy-save');
 
 // INITIALIZE
 function view_process_Init() {
+  let msg = [];
   if (appProcess.getInitSync()) {
     checkInitSync.attr('checked', true);
     btnSyncStart.hide();
     btnSyncStop.show();
+    process_StartBackgroundProcessSyncMaster();
+    msg.push("Initiate Sync Master");
   } else {
     btnSyncStop.hide();
   }
@@ -30,8 +35,13 @@ function view_process_Init() {
     checkInitCopy.attr('checked', true);
     btnCopyStart.hide();
     btnCopyStop.show();
+    process_StartBackgroundProcessAutoCopy();
+    msg.push("Initiate Auto Copy");
   } else {
     btnCopyStop.hide();
+  }
+  if (msg.length > 0) {
+    global_FooterMessage(msg.join(", "));
   }
   process_ReloadAutoCopySettings();
 }
@@ -46,7 +56,7 @@ checkInitCopy.on("change", function() {
 btnSyncStart.on("click", function() {
   btnSyncStart.hide();
   btnSyncStop.show();
-  database_InitSyncDataFromMaster();
+  process_StartBackgroundProcessSyncMaster();
 });
 btnSyncStop.on("click", function() {
   btnSyncStop.hide();
@@ -55,6 +65,7 @@ btnSyncStop.on("click", function() {
 btnCopyStart.on("click", function() {
   btnCopyStart.hide();
   btnCopyStop.show();
+  process_StartBackgroundProcessAutoCopy();
 });
 btnCopyStop.on("click", function() {
   btnCopyStop.hide();
@@ -145,3 +156,23 @@ function process_ReloadAutoCopySettings() {
   $('#select-process-copy-bill-pattern').val(billPattern);
 }
 /* --- UI Handling END ------ */
+
+function process_StartBackgroundProcessSyncMaster() {
+  console.log('process_StartBackgroundProcessSyncMaster() btnSyncStart.isHidden?', btnSyncStart.is(":hidden"));
+  if (btnSyncStart.is(":hidden")) {
+    database_InitSyncDataFromMaster();
+    setTimeout(process_StartBackgroundProcessSyncMaster, BACKGROUND_PROCESS_DELAY);
+  } else {
+    global_FooterMessage("Stop Sync Master");
+  }
+}
+
+function process_StartBackgroundProcessAutoCopy() {
+  console.log('process_StartBackgroundProcessAutoCopy() btnCopyStart.isHidden?', btnCopyStart.is(":hidden"));
+  if (btnCopyStart.is(":hidden")) {
+    // database_InitSyncDataFromMaster();
+    setTimeout(process_StartBackgroundProcessAutoCopy, BACKGROUND_PROCESS_DELAY);
+  } else {
+    global_FooterMessage("Stop Auto Copy");
+  }
+}

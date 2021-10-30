@@ -228,6 +228,27 @@ function home_PopulateSourceTable(data) {
 
 function home_PopulateDestinationTable(data) {
   tableHomeDestination.empty();
+  $.each(data, function(index, obj) {
+    let $tableTR = $("<tr/>");
+    let $tableTH = $("<th/>", {
+      scope: "row"
+    });
+    let $tableINPUT = $("<input/>", {
+      class: "form-check-input home-select-destination-item",
+      type: "checkbox",
+      value: obj.Sales_No,
+    });
+    $tableTH.append($tableINPUT);
+    $tableTR.append($tableTH);
+    $tableTR.append($("<td/>", { text: obj.Sales_No }));
+    $tableTR.append($("<td/>", { text: obj.Receipt_No }));
+    $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[0] }));
+    $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[1] }));
+    $tableTR.append($("<td/>", { text: obj.Payment_Method }));
+    $tableTR.append($("<td/>", { text: obj.Subtotal }));
+    $tableTR.append($("<td/>", { text: obj.Amount }));
+    tableHomeDestination.append($tableTR);
+  });
 }
 
 function home_getFilterQueryStatement() {

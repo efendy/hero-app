@@ -176,6 +176,7 @@
                 <button id="btn-process-sync-start" class="btn btn-primary" width="120">Start</button>
                 <button id="btn-process-sync-stop" class="btn btn-warning" width="120">Stop</button>
               </div>
+              <div class="col-md-4"><strong>Auto Interval</strong> <input type="text" class="form-control form-control-sm" value="2"/> in second(s).</div>
             </div>
             <div class="row g-2 border-bottom pb-2 mt-2">
               <div class="col-md-6">
@@ -191,14 +192,21 @@
                 <button id="btn-process-copy-start" class="btn btn-primary">Start</button>
                 <button id="btn-process-copy-stop" class="btn btn-warning">Stop</button>
               </div>
-              <h5>Auto Copy Filters</h5>
+              <div class="col-md-4"><strong>Auto Interval</strong> <input type="text" class="form-control form-control-sm" value="2"/> in second(s).</div>
+              <h5>Copy Rules</h5>
+              <div class="col-sm-12">
+                <div class="col-sm-3">
+                  <strong>No earlier than this date:</strong>
+                  <input id="datepicker-process-start" class="form-control-custom form-control-sm" />
+                </div>
+              </div>
               <div class="col-md-4">
-                <label for="select-process-copy-payment-method" class="form-label">Payment Method</label>
+                <label for="select-process-copy-payment-method" class="form-label"><strong>Payment Method</strong></label>
                 <div id="select-process-copy-payment-method">
                 </div>
               </div>
               <div class="col-md-4 mb-2">
-                <label class="form-label" width="100%">Nominal Amount per Bill</label>
+                <label class="form-label" width="100%"><strong>Nominal Amount per Bill</strong></label>
                 <div>
                   <select id="select-process-copy-nominal-condition" class="form-control-sm mb-2">
                     <option value="=">=</option>
@@ -212,7 +220,7 @@
                 <span class="font-sm">* When 0, nominal will not be applied.</span>
               </div>
               <div class="col-md-4">
-                <label for="select-process-copy-bill-pattern" class="form-label">Code Allowed</label>
+                <label for="select-process-copy-bill-pattern" class="form-label"><strong>Code Allowed</strong></label>
                 <div>
                   <select id="select-process-copy-bill-pattern" class="form-control-sm mb-2">
                     <option value="all">ALL</option>
@@ -221,7 +229,7 @@
                   </select>
                 </div>
                 <div>
-                  <label for="in-process-copy-bill-per-day" class="form-label">Max. Number of Bills per Day</label>
+                  <label for="in-process-copy-bill-per-day" class="form-label"><strong>Max. Number of Bills per Day</strong></label>
                   <input id="in-process-copy-bill-per-day" class="form-control form-control-sm mb-2" type="number" min="0">
                   <span class="font-sm">* When 0 means no limit.</span>
                 </div>

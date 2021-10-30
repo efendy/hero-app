@@ -2,6 +2,9 @@ console.log('database.js is LOADED');
 
 const mysql = require('mysql');
 
+const RANGE = 1000;
+var isSyncMasterInProgress = false;
+
 class Database {
   constructor(dbStorage) {
     this.dbStorage = dbStorage;
@@ -110,31 +113,33 @@ function database_SyncPaymentMethod() {
 // SYNC DATA FROM MASTER TO SOURCE ----
 //
 function database_InitSyncDataFromMaster() {
-  // Check last salesDateOut / Tanggal_Trx from sourceDb.t_sales
-  sourceDb.query(`
-    SELECT concat(date_format(salesDateOut,'%Y-%m-%d'),' ',date_format(salesDateOut,'%T')) AS Tanggal_Trx 
-    FROM t_sales WHERE salesDateOut=(SELECT MAX(salesDateOut) FROM t_sales)
-  `, function (error, results, fields) {
-    if (error) {
-      alert("SyncDataMaster Connecting to Source\nError:\n" + error.message);
-    }
-    if (fields) {
-      // console.log("database_InitSyncDataFromMaster() sourceDb","FIELDS",fields);
-    }
-    if (results) {
-      // console.log("database_InitSyncDataFromMaster() sourceDb","RESULTS",results);
-      let whereAfterSalesDateOut = "";
-      if (results.length > 0) {
-        // Get data from last salesDateOut / Tanggal_Trx
-        // console.log(results[0].Tanggal_Trx);
-        whereAfterSalesDateOut = `AND a.salesDateOut > '${results[0].Tanggal_Trx}'`;
+  if (!isSyncMasterInProgress) {
+    isSyncMasterInProgress = true;
+    // Check last salesDateOut from sourceDb.t_sales
+    sourceDb.query(`
+      SELECT concat(date_format(salesDateOut,'%Y-%m-%d'),' ',date_format(salesDateOut,'%T')) AS last_SalesDateOut 
+      FROM t_sales WHERE salesDateOut=(SELECT MAX(salesDateOut) FROM t_sales)
+    `, function (error, results, fields) {
+      if (error) {
+        isSyncMasterInProgress = false;
+        alert("SyncDataMaster Connecting to Source\nError:\n" + error.message);
       }
-      database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut,0);
-    }
-  });
+      if (fields) {
+        // console.log("database_InitSyncDataFromMaster() sourceDb","FIELDS",fields);
+      }
+      if (results) {
+        // console.log("database_InitSyncDataFromMaster() sourceDb","RESULTS",results);
+        let whereAfterSalesDateOut = "";
+        if (results.length > 0) {
+          // Get data from last salesDateOut
+          // console.log(results[0].last_SalesDateOut);
+          whereAfterSalesDateOut = `AND a.salesDateOut > '${results[0].last_SalesDateOut}'`;
+        }
+        database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, 0);
+      }
+    });
+  }
 }
-
-const RANGE = 1000;
 
 function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
   masterDb.query(`
@@ -163,6 +168,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
       ${offset}, ${RANGE}
   `, function (error, results, fields) {
     if (error) {
+      isSyncMasterInProgress = false;
       alert("SyncDataMaster Connecting to Master\nError:\n" + error.message);
     }
     if (fields) {
@@ -186,7 +192,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
             OutletCode,
             OutletName,
             ShopID
-          ) VALUES `
+          ) VALUES `;
         let valueStatement = []
         for (i = 0; i < results.length; i++) {
           valueStatement.push(`(
@@ -219,7 +225,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
           }
         });
       } else {
-        // global_FooterMessage("Completed Sync Data from Master!");
+        isSyncMasterInProgress = false;
         // console.log("database_ExecuteSyncDataFromMaster() masterDb COMPLETE");
       }
     }

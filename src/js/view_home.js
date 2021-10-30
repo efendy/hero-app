@@ -33,6 +33,9 @@ var home = {
 
 /* --- UI Handling START ---- */
 
+var spanHomeTotalSourceData = $("#home-source-result-total");
+var spanHomeTotalDestinationData = $("#home-destination-result-total");
+
 var btnHomeSearchFilter = $("#btn-home-search-filter");
 var btnHomeSearchClear = $("#btn-home-search-clear");
 var btnHomeSearchToday = $("#btn-home-search-today");
@@ -165,6 +168,7 @@ function home_ApplySelectItemEvents(target) {
 function home_ReloadSourceTable() {
   let queryStatement = home_getFilterQueryStatement();
   sourceDb.query(queryStatement, function (error, results, fields) {
+    spanHomeTotalDestinationData.text("0");
     if (error) {
       alert("home_ReloadSourceTable Error:\n" + error.message);
     }
@@ -174,6 +178,7 @@ function home_ReloadSourceTable() {
     if (results) {
       console.log("home_ReloadSourceTable()", "RESULTS", results);
       home_PopulateSourceTable(results);
+      spanHomeTotalSourceData.text(`${results.length}`);
     }
   });
 }
@@ -181,6 +186,7 @@ function home_ReloadSourceTable() {
 function home_ReloadDestinationTable() {
   let queryStatement = home_getFilterQueryStatement();
   destinationDb.query(queryStatement, function (error, results, fields) {
+    spanHomeTotalDestinationData.text("0");
     if (error) {
       alert("home_ReloadDestinationTable Error:\n" + error.message);
     }
@@ -190,6 +196,7 @@ function home_ReloadDestinationTable() {
     if (results) {
       console.log("home_ReloadDestinationTable()", "RESULTS", results);
       home_PopulateDestinationTable(results);
+      spanHomeTotalDestinationData.text(`${results.length}`);
     }
   });
 }

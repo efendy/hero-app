@@ -2,43 +2,40 @@ console.log('view_process.js is LOADED');
 
 var appProcess = new ProcessStorage();
 
-function startBackgroundProcess() {
-  console.log("call startBackgroundProcess()");
-}
-
 var BACKGROUND_PROCESS_DELAY = 2000;
 
 /* --- UI Handling START ---- */
 
-var checkInitSync = $("#in-process-init-startup-sync");
-var checkInitCopy = $("#in-process-init-startup-copy");
-var btnSyncStart = $("#btn-process-sync-start");
-var btnSyncStop = $("#btn-process-sync-stop");
-var btnCopyStart = $("#btn-process-copy-start");
-var btnCopyStop = $("#btn-process-copy-stop");
-var selectCopyPaymentMethod = $("#select-process-copy-payment-method");
-var btnCopySave = $('#btn-process-copy-save');
+var checkProcessInitSync = $("#in-process-init-startup-sync");
+var checkProcessInitCopy = $("#in-process-init-startup-copy");
+var btnProcessSyncStart = $("#btn-process-sync-start");
+var btnProcessSyncStop = $("#btn-process-sync-stop");
+var btnProcessCopyStart = $("#btn-process-copy-start");
+var btnProcessCopyStop = $("#btn-process-copy-stop");
+var selectProcessCopyPaymentMethod = $("#select-process-copy-payment-method");
+var btnProcessCopySave = $('#btn-process-copy-save');
+var btnProcessCopyCancel = $('#btn-process-copy-cancel');
 
 // INITIALIZE
 function view_process_Init() {
   let msg = [];
   if (appProcess.getInitSync()) {
-    checkInitSync.attr('checked', true);
-    btnSyncStart.hide();
-    btnSyncStop.show();
+    checkProcessInitSync.attr('checked', true);
+    btnProcessSyncStart.hide();
+    btnProcessSyncStop.show();
     process_StartBackgroundProcessSyncMaster();
     msg.push("Initiate Sync Master");
   } else {
-    btnSyncStop.hide();
+    btnProcessSyncStop.hide();
   }
   if (appProcess.getInitCopy()) {
-    checkInitCopy.attr('checked', true);
-    btnCopyStart.hide();
-    btnCopyStop.show();
+    checkProcessInitCopy.attr('checked', true);
+    btnProcessCopyStart.hide();
+    btnProcessCopyStop.show();
     process_StartBackgroundProcessAutoCopy();
     msg.push("Initiate Auto Copy");
   } else {
-    btnCopyStop.hide();
+    btnProcessCopyStop.hide();
   }
   if (msg.length > 0) {
     global_FooterMessage(msg.join(", "));
@@ -47,33 +44,31 @@ function view_process_Init() {
 }
 
 // EVENTS
-checkInitSync.on("change", function() {
+checkProcessInitSync.on("change", function() {
   appProcess.setInitSync(this.checked);
 });
-checkInitCopy.on("change", function() {
+checkProcessInitCopy.on("change", function() {
   appProcess.setInitCopy(this.checked);
 });
-btnSyncStart.on("click", function() {
-  btnSyncStart.hide();
-  btnSyncStop.show();
+btnProcessSyncStart.on("click", function() {
+  btnProcessSyncStart.hide();
+  btnProcessSyncStop.show();
   process_StartBackgroundProcessSyncMaster();
 });
-btnSyncStop.on("click", function() {
-  btnSyncStop.hide();
-  btnSyncStart.show();
+btnProcessSyncStop.on("click", function() {
+  btnProcessSyncStop.hide();
+  btnProcessSyncStart.show();
 });
-btnCopyStart.on("click", function() {
-  btnCopyStart.hide();
-  btnCopyStop.show();
+btnProcessCopyStart.on("click", function() {
+  btnProcessCopyStart.hide();
+  btnProcessCopyStop.show();
   process_StartBackgroundProcessAutoCopy();
 });
-btnCopyStop.on("click", function() {
-  btnCopyStop.hide();
-  btnCopyStart.show();
+btnProcessCopyStop.on("click", function() {
+  btnProcessCopyStop.hide();
+  btnProcessCopyStart.show();
 });
-btnCopySave.on("click", function() {
-  let queryStatement = "";
-  // SELECTED PAYMENT METHOD
+btnProcessCopySave.on("click", function() {
   let selectedPaymentMethods = [];
   $('.form-check-input').each(function() {
     if (this.id.startsWith("check-process-copy-payment-")) {
@@ -82,26 +77,24 @@ btnCopySave.on("click", function() {
       }
     }
   });
-  console.log(selectedPaymentMethods);
-
+  
   // NOMINAL CONDITION
   let selectedNominalCondition = $('#select-process-copy-nominal-condition').val();
   let selectedNominalValue = $('#in-process-copy-nominal').val();
-  if (selectedNominalValue > 0) {
-    console.log(selectedNominalCondition, selectedNominalValue);
+  if (selectedNominalValue == "") {
+    $('#in-process-copy-nominal').val(0);
+    selectedNominalValue = 0
   }
 
   // BILL PER DAY
   let selectedBillPerDay = $('#in-process-copy-bill-per-day').val();
-  if (selectedBillPerDay > 0) {
-    console.log(selectedBillPerDay);
+  if (selectedBillPerDay == "") {
+    $('#in-process-copy-bill-per-day').val(0);
+    selectedBillPerDay = 0
   }
   
   // BILL NUMBER PATTERN
   let selectedBillPattern = $('#select-process-copy-bill-pattern').val();
-  if (selectedBillPattern != "all") {
-    console.log(selectedBillPattern);
-  }
 
   appProcess.saveAutoCopySettings(
     selectedPaymentMethods,
@@ -110,15 +103,20 @@ btnCopySave.on("click", function() {
     selectedBillPerDay,
     selectedBillPattern
   );
-})
+});
+btnProcessCopyCancel.on("click", function() { 
+  //
+  process_ReloadAutoCopySettings();
+  process_ReloadPaymentMethodSelection();
+});
 
 // DATA LIST
-function process_ReloadPaymentMethodSelection(paymentMethodMap) {
+function process_ReloadPaymentMethodSelection() {
   let autoCopySettings = appProcess.getAutoCopySettings();
   var paymentMethods = autoCopySettings.paymentMethods;
 
-  selectCopyPaymentMethod.empty();
-  paymentMethodMap.forEach(function(value, key) {
+  selectProcessCopyPaymentMethod.empty();
+  global_PaymentMethodMap.forEach(function(value, key) {
     var $formCheck = $("<div/>", {
       class: "form-check"
     });
@@ -138,7 +136,7 @@ function process_ReloadPaymentMethodSelection(paymentMethodMap) {
     });
     $formCheck.append($checkInput);
     $formCheck.append($checkLabel);
-    selectCopyPaymentMethod.append($formCheck);
+    selectProcessCopyPaymentMethod.append($formCheck);
   });
 }
 
@@ -155,11 +153,15 @@ function process_ReloadAutoCopySettings() {
   $('#in-process-copy-bill-per-day').val(billPerDay);
   $('#select-process-copy-bill-pattern').val(billPattern);
 }
+
+// FUNCTIONS
+
+
 /* --- UI Handling END ------ */
 
 function process_StartBackgroundProcessSyncMaster() {
-  console.log('process_StartBackgroundProcessSyncMaster() btnSyncStart.isHidden?', btnSyncStart.is(":hidden"));
-  if (btnSyncStart.is(":hidden")) {
+  // console.log('process_StartBackgroundProcessSyncMaster() btnProcessSyncStart.isHidden?', btnProcessSyncStart.is(":hidden"));
+  if (btnProcessSyncStart.is(":hidden")) {
     database_InitSyncDataFromMaster();
     setTimeout(process_StartBackgroundProcessSyncMaster, BACKGROUND_PROCESS_DELAY);
   } else {
@@ -168,11 +170,44 @@ function process_StartBackgroundProcessSyncMaster() {
 }
 
 function process_StartBackgroundProcessAutoCopy() {
-  console.log('process_StartBackgroundProcessAutoCopy() btnCopyStart.isHidden?', btnCopyStart.is(":hidden"));
-  if (btnCopyStart.is(":hidden")) {
-    // database_InitSyncDataFromMaster();
+  console.log('process_StartBackgroundProcessAutoCopy() btnProcessCopyStart.isHidden?', btnProcessCopyStart.is(":hidden"));
+  if (btnProcessCopyStart.is(":hidden")) {
+    process_InitAutoCopyFromSourceToDestination();
     setTimeout(process_StartBackgroundProcessAutoCopy, BACKGROUND_PROCESS_DELAY);
   } else {
     global_FooterMessage("Stop Auto Copy");
   }
+}
+
+function process_InitAutoCopyFromSourceToDestination() {
+  let queryStatement = "SELECT * FROM `t_sales` WHERE ";
+
+  let autoCopySettings = appProcess.getAutoCopySettings();
+
+  var paymentMethods = autoCopySettings.paymentMethods;
+  var nominalCondition = autoCopySettings.nominalCondition;
+  var nominalValue = autoCopySettings.nominalValue;
+  let billPattern = autoCopySettings.billPattern;
+  let billPerDay = autoCopySettings.billPerDay;
+
+  let whereStatement = [];
+
+  whereStatement.push(`Payment_Method IN ('${paymentMethods.join("','")}') `);
+  if (nominalValue > 0) {
+    whereStatement.push(`Amount ${nominalCondition} ${nominalValue} `);
+  }
+  if (billPattern == "odd") {
+    whereStatement.push(`MOD(RIGHT(Sales_No,1),2) = 1 `);
+  } else if (billPattern == "even") {
+    whereStatement.push(`MOD(RIGHT(Sales_No,1),2) = 0 `);
+  }
+  global_FooterMessage(queryStatement + whereStatement.join('AND '));
+}
+
+function process_GetBillPatternQuery() {
+  let rsp = ""
+  // BILL NUMBER PATTERN
+  let selectedBillPattern = $('#select-process-copy-bill-pattern').val();
+  
+  return rsp;
 }

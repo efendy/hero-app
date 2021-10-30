@@ -76,6 +76,9 @@ function saveConnections() {
     )
   }
   console.log('saveConnections - Success');
+
+  database_CreateTableSales(sourceDb);
+  database_CreateTableSales(destinationDb);
 }
 
 function cancelConnections() {

@@ -17,14 +17,14 @@ function global_GetTodayDate() {
   return `${ye}-${mo}-${da}`;
 }
 
+var global_PaymentMethodMap = new Map();
 function global_ReloadPaymentMethodList(results) {
-  let paymentMethodMap = new Map();
   $.each(results, function(index, object) {
-    paymentMethodMap.set(object.paymentMethodID,object.paymentMethodName);
+    global_PaymentMethodMap.set(object.paymentMethodID, object.paymentMethodName);
   });
 
-  home_ReloadPaymentMethodSelection(paymentMethodMap);
-  process_ReloadPaymentMethodSelection(paymentMethodMap);
+  home_ReloadPaymentMethodSelection(global_PaymentMethodMap);
+  process_ReloadPaymentMethodSelection();
 }
 
 function global_FooterMessage(message) {
@@ -40,7 +40,7 @@ $('.dropdown').on("click", function() {
   }
 });
 var dropdownMenuTimer;
-var dropdownMenuDelay = 1000;
+var dropdownMenuDelay = 200;
 $('.dropdown-menu').on("mouseout", function() {
   dropdownMenuTimer = setTimeout(function() {
     $('.dropdown-menu.open').toggle();

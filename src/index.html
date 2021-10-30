@@ -76,7 +76,7 @@
             <div class="col-md-6">
               <div class="p-1">
                 <strong>Source</strong>
-                <div class="float-end"><strong>Total Data: <span id="hero-source-result-total">0</span></strong></div>
+                <div class="float-end"><strong>Total Data: <span id="home-source-result-total">0</span></strong></div>
               </div>
               <div id="hero-source-table" class="overflow-scroll bg-light">
                 <table class="table">
@@ -116,7 +116,7 @@
             <div class="col-md-6">
               <div class="p-1">
                 <strong>Destination</strong>
-                <div class="float-end"><strong>Total Data: <span id="hero-destination-result-total">0</span></strong></div>
+                <div class="float-end"><strong>Total Data: <span id="home-destination-result-total">0</span></strong></div>
               </div>
               <div id="hero-destination-table" class="overflow-scroll bg-light">
                 <table class="table">
@@ -197,9 +197,9 @@
                 <div id="select-process-copy-payment-method">
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="mb-2">
-                  <label for="select-process-copy-nominal-condition" class="form-label" width="100%">Nominal</label>
+              <div class="col-md-4 mb-2">
+                <label class="form-label" width="100%">Nominal Amount per Bill</label>
+                <div>
                   <select id="select-process-copy-nominal-condition" class="form-control-sm mb-2">
                     <option value="=">=</option>
                     <option value="<">&lt;</option>
@@ -207,25 +207,28 @@
                     <option value=">">&gt;</option>
                     <option value=">=">&gt;=</option>
                   </select>
-                  <input id="in-process-copy-nominal" class="form-control form-control-sm" type="number" min="0">
+                  <input id="in-process-copy-nominal" class="form-control form-control-sm mb-2" type="number" min="0">
                 </div>
+                <span class="font-sm">* When 0, nominal will not be applied.</span>
               </div>
               <div class="col-md-4">
-                <div class="mb-2">
-                  <label for="in-process-copy-bill-per-day" class="form-label">Bill per Hari</label>
-                  <input id="in-process-copy-bill-per-day" class="form-control form-control-sm" type="number" min="0">
-                </div>
-                <div class="col-md-4 mb-2">
-                  <label for="select-process-copy-bill-pattern" class="form-label">Bill Number</label>
+                <label for="select-process-copy-bill-pattern" class="form-label">Code Allowed</label>
+                <div>
                   <select id="select-process-copy-bill-pattern" class="form-control-sm mb-2">
                     <option value="all">ALL</option>
                     <option value="odd">ODD</option>
                     <option value="even">EVEN</option>
                   </select>
                 </div>
+                <div>
+                  <label for="in-process-copy-bill-per-day" class="form-label">Max. Number of Bills per Day</label>
+                  <input id="in-process-copy-bill-per-day" class="form-control form-control-sm mb-2" type="number" min="0">
+                  <span class="font-sm">* When 0 means no limit.</span>
+                </div>
               </div>
               <div class="d-grid gap-2 d-sm-flex justify-content-sm-start mb-4">
                 <button id="btn-process-copy-save" class="btn btn-primary">Save</button>
+                <button id="btn-process-copy-cancel" class="btn btn-secondary">Cancel</button>
               </div>
             </div>
           </div>

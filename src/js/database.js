@@ -126,7 +126,7 @@ function database_InitSyncDataFromMaster() {
       let whereAfterSalesDateOut = "";
       if (results.length > 0) {
         // Get data from last salesDateOut / Tanggal_Trx
-        console.log(results[0].Tanggal_Trx);
+        // console.log(results[0].Tanggal_Trx);
         whereAfterSalesDateOut = `AND a.salesDateOut > '${results[0].Tanggal_Trx}'`;
       }
       database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut,0);
@@ -169,7 +169,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
       // console.log("database_ExecuteSyncDataFromMaster() masterDb","FIELDS",fields);
     }
     if (results) {
-      console.log("database_ExecuteSyncDataFromMaster() masterDb","RESULTS",results);
+      // console.log("database_ExecuteSyncDataFromMaster() masterDb","RESULTS",results);
       if (results.length > 0) {
         let insertStatement = `
           INSERT INTO t_sales (
@@ -220,7 +220,7 @@ function database_ExecuteSyncDataFromMaster(whereAfterSalesDateOut, offset) {
         });
       } else {
         // global_FooterMessage("Completed Sync Data from Master!");
-        console.log("database_ExecuteSyncDataFromMaster() masterDb COMPLETE");
+        // console.log("database_ExecuteSyncDataFromMaster() masterDb COMPLETE");
       }
     }
   });

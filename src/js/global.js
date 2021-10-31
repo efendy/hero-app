@@ -23,6 +23,12 @@ function global_GetFormattedDate(aDate) {
   return `${ye}-${mo}-${da}`;
 }
 
+function global_ToNumericThousands(num){
+  var num_parts = num.toString().split(".");
+  num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return num_parts.join(",");
+}
+
 var global_PaymentMethodMap = new Map();
 function global_ReloadPaymentMethodList(results) {
   $.each(results, function(index, object) {

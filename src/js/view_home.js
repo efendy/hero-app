@@ -221,8 +221,8 @@ function home_PopulateSourceTable(data) {
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[0] }));
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[1] }));
     $tableTR.append($("<td/>", { text: obj.Payment_Method }));
-    $tableTR.append($("<td/>", { text: obj.Subtotal }));
-    $tableTR.append($("<td/>", { text: obj.Amount }));
+    $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Subtotal.toFixed(2)), class: "text-end" }));
+    $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Amount.toFixed(2)), class: "text-end" }));
     tableHomeSource.append($tableTR);
   });
 }
@@ -247,8 +247,8 @@ function home_PopulateDestinationTable(data) {
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[0] }));
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[1] }));
     $tableTR.append($("<td/>", { text: obj.Payment_Method }));
-    $tableTR.append($("<td/>", { text: obj.Subtotal }));
-    $tableTR.append($("<td/>", { text: obj.Amount }));
+    $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Subtotal.toFixed(2)), class: "text-end" }));
+    $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Amount.toFixed(2)), class: "text-end" }));
     tableHomeDestination.append($tableTR);
   });
 }

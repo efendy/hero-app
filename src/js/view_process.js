@@ -335,8 +335,9 @@ function process_ExecuteCopyDataFromSource(salesDate) {
 //  INSERT IGNORE INTO ()
 function process_InsertDestination(results) {
   console.log(results);
+  // INSERT IGNORE INTO t_sales (
   let insertStatement = `
-    INSERT IGNORE INTO t_sales (
+    REPLACE INTO t_sales (
       Sales_No,
       Receipt_No,
       Tanggal_Trx,

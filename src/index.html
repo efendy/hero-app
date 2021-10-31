@@ -198,7 +198,7 @@
               </div>
               <div class="col-md-4"><strong>Auto Interval</strong> <input type="text" class="form-control form-control-sm" value="2"/> in second(s).</div>
               <h5>Copy Rules</h5>
-              <div class="col-sm-12">
+              <div class="col-sm-12" style="display: hidden;">
                 <div class="col-sm-3">
                   <strong>No earlier than this date:</strong>
                   <input id="datepicker-process-start" class="form-control-custom form-control-sm" />
@@ -396,8 +396,8 @@
       </div>
     </main>
     <footer class="section-footer fixed-bottom py-1 bg-light border-top">
-      <div class="container-fluid">
-        <span id="footer-message">..</span>
+      <div class="container-fluid" style="overflow: scroll;">
+        <span id="footer-message" style="white-space: nowrap;">..</span>
       </div>
     </footer>
     <!-- preload view -->

@@ -46,8 +46,8 @@ var btnHomeTableSourceCopy = $("#btn-home-table-source-copy");
 var btnHomeTableDestinationExport = $("#btn-home-table-destination-export");
 var btnHomeTableDestinationDelete = $("#btn-home-table-destination-delete");
 var btnHomeTableDestinationAction = $("#btn-home-table-destination-action");
-var tableHomeSource = $("#table-home-source")
-var tableHomeDestination = $("#table-home-destination")
+var tableHomeBodySource = $("#table-home-body-source")
+var tableHomeBodyDestination = $("#table-home-body-destination")
 
 // INITIALIZE
 
@@ -109,7 +109,7 @@ btnHomeSearchToday.on("click", function() {
 
 // });
 btnHomeTableSourceExport.on("click", function() {
-
+  home_ExportTable("source");
 });
 btnHomeTableSourceCopy.on("click", function() {
   let items = document.getElementsByClassName("home-select-source-item");
@@ -125,7 +125,7 @@ btnHomeTableSourceCopy.on("click", function() {
 
 // });
 btnHomeTableDestinationExport.on("click", function() {
-
+  home_ExportTable("destination");
 });
 btnHomeTableDestinationDelete.on("click", function() {
   let items = document.getElementsByClassName("home-select-destination-item");
@@ -202,7 +202,7 @@ function home_ReloadDestinationTable() {
 }
 
 function home_PopulateSourceTable(data) {
-  tableHomeSource.empty();
+  tableHomeBodySource.empty();
   $.each(data, function(index, obj) {
     // console.log(obj.Sales_No);
     let $tableTR = $("<tr/>");
@@ -223,12 +223,12 @@ function home_PopulateSourceTable(data) {
     $tableTR.append($("<td/>", { text: obj.Payment_Method }));
     $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Subtotal.toFixed(2)), class: "text-end" }));
     $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Amount.toFixed(2)), class: "text-end" }));
-    tableHomeSource.append($tableTR);
+    tableHomeBodySource.append($tableTR);
   });
 }
 
 function home_PopulateDestinationTable(data) {
-  tableHomeDestination.empty();
+  tableHomeBodyDestination.empty();
   $.each(data, function(index, obj) {
     let $tableTR = $("<tr/>");
     let $tableTH = $("<th/>", {
@@ -249,7 +249,7 @@ function home_PopulateDestinationTable(data) {
     $tableTR.append($("<td/>", { text: obj.Payment_Method }));
     $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Subtotal.toFixed(2)), class: "text-end" }));
     $tableTR.append($("<td/>", { text: global_ToNumericThousands(obj.Amount.toFixed(2)), class: "text-end" }));
-    tableHomeDestination.append($tableTR);
+    tableHomeBodyDestination.append($tableTR);
   });
 }
 
@@ -278,6 +278,70 @@ function home_getFilterQueryStatement() {
   console.log("home_getFilterQueryStatement() return ",queryStatement);
   global_FooterMessage(queryStatement);
   return queryStatement;
+}
+
+function home_ExportTable(target) {
+  // let tableTarget = $("#table-home-"+target);
+  let filename = `export-${target}`;
+  let downloadLink;
+  let dataType = 'application/vnd.ms-excel';
+  let tableSelect = document.getElementById(`table-home-${target}`);
+  let tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+  
+  // Specify file name
+  filename = filename?filename+'.xls':'excel_data.xls';
+  
+  // Create download link element
+  downloadLink = document.createElement("a");
+  
+  document.body.appendChild(downloadLink);
+  
+  if(navigator.msSaveOrOpenBlob){
+      var blob = new Blob(['\ufeff', tableHTML], {
+          type: dataType
+      });
+      navigator.msSaveOrOpenBlob( blob, filename);
+  }else{
+      // Create a link to the file
+      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+  
+      // Setting the file name
+      downloadLink.download = filename;
+      
+      //triggering the function
+      downloadLink.click();
+  }
+}
+
+function exportTableToExcel(tableID, filename = '') {
+  var downloadLink;
+  var dataType = 'application/vnd.ms-excel';
+  var tableSelect = document.getElementById(tableID);
+  var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+  
+  // Specify file name
+  filename = filename?filename+'.xls':'excel_data.xls';
+  
+  // Create download link element
+  downloadLink = document.createElement("a");
+  
+  document.body.appendChild(downloadLink);
+  
+  if(navigator.msSaveOrOpenBlob){
+      var blob = new Blob(['\ufeff', tableHTML], {
+          type: dataType
+      });
+      navigator.msSaveOrOpenBlob( blob, filename);
+  }else{
+      // Create a link to the file
+      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+  
+      // Setting the file name
+      downloadLink.download = filename;
+      
+      //triggering the function
+      downloadLink.click();
+  }
 }
 
 /* --- UI Handling END ------ */

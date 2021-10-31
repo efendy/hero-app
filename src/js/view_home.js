@@ -215,8 +215,9 @@ function home_PopulateSourceTable(data) {
       value: obj.Sales_No,
     });
     $tableTH.append($tableINPUT);
+    $tableTH.append($("<label/>", { text: obj.Sales_No }));
     $tableTR.append($tableTH);
-    $tableTR.append($("<td/>", { text: obj.Sales_No }));
+    // $tableTR.append($("<td/>", { text: obj.Sales_No }));
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[0] }));
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[1] }));
     $tableTR.append($("<td/>", { text: obj.Payment_Method }));
@@ -239,8 +240,9 @@ function home_PopulateDestinationTable(data) {
       value: obj.Sales_No,
     });
     $tableTH.append($tableINPUT);
+    $tableTH.append($("<label/>", { text: obj.Sales_No }));
     $tableTR.append($tableTH);
-    $tableTR.append($("<td/>", { text: obj.Sales_No }));
+    // $tableTR.append($("<td/>", { text: obj.Sales_No }));
     $tableTR.append($("<td/>", { text: obj.Receipt_No }));
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[0] }));
     $tableTR.append($("<td/>", { text: obj.Tanggal_Trx.split(" ")[1] }));

@@ -23,7 +23,7 @@ const createWindow = () => {
     }
   });
   top.win.loadFile(path.join(__dirname, 'index.html'));
-  top.win.webContents.openDevTools();
+  // top.win.webContents.openDevTools();
   top.win.on("close", ev => {
     // console.log(ev.sender);
     ev.sender.webContents.sendInputEvent({type: 'keyDown', keyCode: 'HIDEWINDOW'});

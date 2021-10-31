@@ -13,6 +13,7 @@ TODO:
 - home selected copy
 - home selected delete
 - generating bill number
-- export to xls / csv
+- export to xls / csv --- done export to xls
 - remove unnecessary menu
+- search by Code
 
